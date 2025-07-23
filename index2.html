@@ -3,14 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>تحضير الطلاب</title>
+  <title>كشف متابعة ورصد درجات الطلاب </title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+  
   <style>
     body {
       font-family: 'Traditional Arabic', serif;
-      background: #f8f9fa;
+      background: #f4f6f9;
       margin: 0;
       padding: 20px;
       color: #333;
+      position: relative;
     }
     header {
       text-align: center;
@@ -18,21 +26,25 @@
       position: relative;
     }
     header h1 {
-      font-size: 2.5rem;
-      color: #007bff;
-      border-bottom: 2px solid #007bff;
+      font-size: 2.7rem;
+      color: #1f3c88;
+      border-bottom: 3px solid #1f3c88;
       display: inline-block;
-      padding: 10px 20px;
-      background-color: #fff;
+      padding: 8px 25px;
       border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: 'Traditional Arabic', serif;
     }
+    /* زر القائمة فوق يمين */
     #menuBtn {
       position: absolute;
       top: 10px;
-      left: 20px;
-      font-size: 2rem;
+      left: 20px; /* بالعربي يمين */
+      font-size: 2.2rem;
       cursor: pointer;
-      color: #007bff;
+      user-select: none;
+      color: #1f3c88;
     }
     #menuOptions {
       position: absolute;
@@ -49,70 +61,123 @@
     #menuOptions div {
       padding: 10px 15px;
       cursor: pointer;
+      font-family: 'Traditional Arabic', serif;
       font-size: 1rem;
     }
     #menuOptions div:hover {
-      background-color: #007bff;
+      background-color: #1f3c88;
       color: white;
     }
+
     .container {
       max-width: 900px;
       margin: auto;
       background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     }
     .student-block {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      margin-bottom: 18px;
       border-bottom: 1px solid #eee;
-      padding: 12px 0;
+      padding-bottom: 10px;
+    }
+    .top-row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
       flex-wrap: wrap;
     }
-    .student-info {
-      flex: 1;
+    .number {
+      font-family: 'Traditional Arabic', serif;
+      font-size: 1.3rem;
+      width: 20px;
+      flex-shrink: 0;
     }
-    .student-name {
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #333;
-    }
-    .student-course {
-      font-size: 0.9rem;
-      color: #777;
-    }
-    .status-options {
+    .name-course {
       display: flex;
-      gap: 12px;
-      margin-top: 8px;
+      flex-direction: column;
+      flex-grow: 1;
     }
-    .status-options label {
-      font-size: 1rem;
+    .name {
+      font-weight: bold;
+      font-size: 1.6rem;
+      color: #1f3c88;
+      white-space: normal;
+      line-height: 1.2;
+      font-family: 'Traditional Arabic', serif;
+    }
+    .course {
+      font-weight: bold;
+      font-family: 'Traditional Arabic', serif;
+      font-size: 0.95rem;
+      color: #555;
+      margin-top: 1px;
+      white-space: normal;
+      line-height: 1.2;
+    }
+    .bottom-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+    .bottom-row input[type="text"] {
+      width: 65px;
+      padding: 6px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      text-align: center;
+      font-family: 'Traditional Arabic', serif;
+      font-size: 1.1rem;
     }
     .submit-btn {
       text-align: center;
       margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
     .submit-btn button {
-      padding: 10px 25px;
+      padding: 12px 25px;
       font-size: 16px;
-      background: #007bff;
+      background: #1f3c88;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-family: 'Traditional Arabic', serif;
+      transition: background 0.3s ease;
     }
     .submit-btn button:hover {
-      background: #0056b3;
+      background: #16316e;
+    }
+    @media (max-width: 480px) {
+      .bottom-row input[type="text"] {
+        width: 60px;
+        font-size: 1rem;
+      }
+      .name {
+        font-size: 1.2rem;
+      }
+      .course {
+        font-size: 0.75rem;
+      }
+      .submit-btn {
+        flex-direction: column;
+      }
+      .submit-btn button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <div id="menuBtn">☰</div>
-    <h1 id="halqaTitle">تحضير - حلقة الإمام البخاري</h1>
+    <h1 id="halqaTitle">حلقة الإمام البخاري</h1>
     <div id="menuOptions">
       <div data-halqa="bukhari">حلقة الإمام البخاري</div>
       <div data-halqa="muslim">حلقة الإمام مسلم</div>
@@ -122,12 +187,118 @@
   </header>
   <div class="container" id="formContainer"></div>
   <div class="submit-btn">
-    <button onclick="getAttendance()">طباعة التحضير</button>
+    <button onclick="generatePDF()">تصدير PDF</button>
+    <button onclick="exportExcel()">تصدير Excel</button>
+    <button onclick="sendWhatsApp()">إرسال واتساب</button>
+    <button onclick="downloadAsImage()">تحميل كصورة</button>
+    <button onclick="saveReportZip()">حفظ التقرير</button>
   </div>
 
   <script>
-    const halqat = /* انسخ نفس كائن halqat من الصفحة الأولى هنا */;
-    
+    const halqat = {
+      bukhari: [
+  ["محمد موسى محمد", "المجلد الثاني والثالث من كتاب مختصر الجمع ( مجلدين)"],
+  ["عبدالكريم علي عائض آل فردان", "المجلد الثاني والثالث من كتاب مختصر الجمع ( مجلدين)(خطة الطالب فردان)"],
+  ["مصطفى محمد بركات", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["مؤمن كريم عامر", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عبدالرحمن عبدالعزيز بن طالب", "النصف الأول من كفاية المستقنع"],
+  ["منير حمزة الهوساوي", "زوائد السنن على الصحيحين"],
+  ["مهاب إيهاب النجار", "بلوغ المرام كاملاً"],
+  ["محمد أيت باموس", "بلوغ المرام كاملاً"],
+  ["مؤيد محمد علي قاسم", "زاد المستقنع كاملاً"],
+  ["عمر بن عبدالعزيز القباني", "بلوغ المرام كاملاً"],
+  ["صهيب محمد الحمد", "المفردات مع حفظ المظلل 5 مجلدات"],
+  ["عاصم عبدالعزيز", "بلوغ المرام كاملاً"],
+  ["علي محمد فوزي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمود جاري", "بلوغ المرام كاملاً"],
+  ["احمد عبدالستار عبدالفتاح", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عبد الإله فهد عبد الماجد آل ثابت", "عمدة الأحكام كاملاً"],
+  ["عزام عبدالباسط السفياني", "عمدة الأحكام كاملاً"],
+  ["بشاره بشير البشراوي", "عمدة الأحكام كاملاً"],
+  ["عبيدة ايت بسلام", "ألفية ابن مالك كاملاً"],
+  ["محمد حسين أبو النور", "بلوغ المرام كاملاً"],
+  ["محمد سعيد محمد محمود الرباني", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمد عبد المومن أحمد", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عبيدالله إبراهيم عبدالرؤوف", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["إسحاق بلال أيندي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"]
+      ],
+      muslim: [
+  ["حبيب إبراهيم بخاري", "النصف الثاني من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عبدالرؤوف إبراهيم عبدالرؤوف", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمود دابري أكينينمي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["احمد محمد المعتز", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عبدالله أيوب علي", "المفردات مع حفظ المظلل 5 مجلدات"],
+  ["عبدالرحمن مكي موسى", "زوائد السنن على الصحيحين"],
+  ["محمد ماهر على خليفة", "زوائد السنن على الصحيحين"],
+  ["وليد حسن العامري", "بلوغ المرام كاملاً"],
+  ["محمد الحسن محمد عبد الرحمن", "بلوغ المرام كاملاً"],
+  ["احمد اياد الصحاف", "بلوغ المرام كاملاً"],
+  ["صهيب سعيد آل عبدالعال", "بلوغ المرام كاملاً"],
+  ["محمد بن علي الخضيري", "زاد المستقنع كاملاً"],
+  ["مصطفى ماجد احمد", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["أحمد بن محمد العربي طه", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["مسلم كريم عامر", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["معتز فهد آل ثابت", "عمدة الأحكام كاملاً"],
+  ["عمر عبدالعزيز الغامدي", "عمدة الأحكام كاملاً"],
+  ["مجاهد ممدوح النفيسي", "عمدة الأحكام كاملاً"],
+  ["هاشم مسلم القرشي", "عمدة الأحكام كاملاً"],
+  ["عبدالغني روابحيه", "عمدة الأحكام كاملاً"],
+  ["عمر وائل", "عمدة الأحكام كاملاً"],
+  ["أدوتي أحمد أبطئ", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عبدالحق أودو لي الإشبيلي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عبدالملك يونس يوسف", "ألفية ابن مالك كاملاً"]
+      ],
+      abudawood: [
+  ["ايهاب علي احمد", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["يوسف عبدالرحمن علي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["يوسف محمد سليمان", "بلوغ المرام كاملاً"],
+  ["عبدالله الخطيب", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمد علي محمد", "المفردات مع حفظ المظلل 5 مجلدات"],
+  ["محمد علي أبو بكر", "زوائد السنن على الصحيحين"],
+  ["عبد الرحمن ابو بكر ادم", "بلوغ المرام كاملاً"],
+  ["خالد بن إبراهيم الناصر", "بلوغ المرام كاملاً"],
+  ["يوسف بن ابراهيم الحديثي", "بلوغ المرام كاملاً"],
+  ["سعيد موسى بقعان", "عمدة الأحكام كاملاً"],
+  ["عبد الحكيم إدريس أولاديميجي", "النصف الأول من كتاب بلوغ المرام"],
+  ["محمد عبدالله الغريب", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["أحمد علي الحاج", "ألفية ابن مالك كاملاً"],
+  ["معاذ آدم موسى", "ألفية ابن مالك كاملاً"],
+  ["عبدالله عبدالقادر", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["يحيى أحمد المحمدي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمد يرو عبد", "النصف الأول من كتاب بلوغ المرام"],
+  ["مالك حسن السيد", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمد حسن السيد", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["الطاهر عبدالرحمن موسى", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمد المصطفى عبدالودود", "ألفية ابن مالك كاملاً"],
+  ["عبدالرحمن منصور الغامدي", "زاد المستقنع كاملاً"],
+  ["عبدالله أبرهة", "عمدة الأحكام كاملاً"]
+      ],
+      tirmidhi: [
+  ["عبدالحليم معروف خضر", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["إبراهيم بن عبدالعزيز الصوينع", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["أحمد عبد الستار محمد محمد", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["خالد مصطفى السيد الطوبجي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["عاصم محمد أمين", "المفردات مع حفظ المظلل 5 مجلدات"],
+  ["محمد يوسف محمد حمزة", "المفردات مع حفظ المظلل 5 مجلدات"],
+  ["عبد الرحمن محمد عبدالمتين عثمان", "زوائد السنن على الصحيحين"],
+  ["فايز بختيار أحمد", "بلوغ المرام كاملاً"],
+  ["أنس بن عبد الرحمن الشدي", "بلوغ المرام كاملاً"],
+  ["عبد الرحمن باداود", "بلوغ المرام كاملاً"],
+  ["محمود أبكر الهوساوي", "ألفية ابن مالك كاملاً"],
+  ["محمد خالد البديوي", "كتاب التوحيد"],
+  ["مصطفى ذنون", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["مؤيد محمد عبدالله", "عمدة الأحكام كاملاً"],
+  ["أسامة المحمدي", "عمدة الأحكام كاملاً"],
+  ["ناهي الجويعد", "عمدة الأحكام كاملاً"],
+  ["أحمد إبراهيم الهاشمي", "عمدة الأحكام كاملاً"],
+  ["أحمد سيد سعد محمد", "عمدة الأحكام كاملاً"],
+  ["محمود جميل علي", "النصف الأول من كتاب مختصر الجمع ( مجلد ونصف)"],
+  ["محمد سالم كليب يحيى", "كتاب التوحيد"],
+  ["محمد ريدان توفيق", "ألفية ابن مالك كاملاً"],
+  ["محمد عبد الحميد فتحي الأصيل", "عمدة الأحكام كاملاً"]
+      ]
+    };
+
     const container = document.getElementById("formContainer");
     const halqaTitle = document.getElementById("halqaTitle");
     const menuBtn = document.getElementById("menuBtn");
@@ -137,11 +308,11 @@
       container.innerHTML = "";
       let titleText = "";
       switch(key){
-        case "bukhari": titleText = "تحضير - حلقة الإمام البخاري"; break;
-        case "muslim": titleText = "تحضير - حلقة الإمام مسلم"; break;
-        case "abudawood": titleText = "تحضير - حلقة الإمام أبو داود"; break;
-        case "tirmidhi": titleText = "تحضير - حلقة الإمام الترمذي"; break;
-        default: titleText = "تحضير - حلقة الإمام البخاري";
+        case "bukhari": titleText = "حلقة الإمام البخاري"; break;
+        case "muslim": titleText = "حلقة الإمام مسلم"; break;
+        case "abudawood": titleText = "حلقة الإمام أبو داود"; break;
+        case "tirmidhi": titleText = "حلقة الإمام الترمذي"; break;
+        default: titleText = "حلقة الإمام البخاري";
       }
       halqaTitle.textContent = titleText;
 
@@ -150,36 +321,26 @@
         const block = document.createElement("div");
         block.className = "student-block";
         block.innerHTML = `
-          <div class="student-info">
-            <div class="student-name">${index + 1}. ${student[0]}</div>
-            <div class="student-course">${student[1]}</div>
-            <div class="status-options">
-              <label><input type="radio" name="status_${index}" value="حاضر" /> حاضر</label>
-              <label><input type="radio" name="status_${index}" value="معتذر" /> معتذر</label>
-              <label><input type="radio" name="status_${index}" value="غائب" /> غائب</label>
+          <div class="top-row">
+            <div class="number">${index + 1}.</div>
+            <div class="name-course">
+              <div class="name">${student[0]}</div>
+              <div class="course">${student[1]}</div>
             </div>
+          </div>
+          <div class="bottom-row">
+            <input type="text" placeholder="رصد 1" id="score1_${index}" />
+            <input type="text" placeholder="رصد 2" id="score2_${index}" />
+            <input type="text" placeholder="رصد 3" id="score3_${index}" />
+            <input type="text" placeholder="رصد 4" id="score4_${index}" />
+            <input type="text" placeholder="رصد 5" id="score5_${index}" />
+            <input type="text" placeholder="رصد 6" id="score6_${index}" />
           </div>
         `;
         container.appendChild(block);
       });
     }
 
-    function getAttendance() {
-      const blocks = document.querySelectorAll(".student-block");
-      let result = halqaTitle.textContent + "\n\n";
-
-      blocks.forEach((block, index) => {
-        const name = block.querySelector(".student-name").textContent;
-        const selected = block.querySelector("input[type='radio']:checked");
-        const status = selected ? selected.value : "لم يُحدد";
-        result += `${name}: ${status}\n`;
-      });
-
-      console.log(result);
-      alert("تم حفظ التحضير في وحدة التحكم (Console)\n\nانسخه أو استخدمه لاحقاً.");
-    }
-
-    // القائمة العلوية
     menuBtn.onclick = () => {
       menuOptions.style.display = menuOptions.style.display === "block" ? "none" : "block";
     };
@@ -192,7 +353,206 @@
       };
     });
 
+    // أول تحميل صفحة
     loadHalqa("bukhari");
+
+    // دوال التصدير (PDF و Excel و صور و إرسال واتساب، تفعيل حسب حاجتك)
+
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+
+      doc.setFont("Traditional Arabic", "normal");
+      doc.setFontSize(18);
+      doc.text(halqaTitle.textContent, 40, 40);
+
+      const columns = [
+        { header: "الرقم", dataKey: "number" },
+        { header: "اسم الطالب", dataKey: "name" },
+        { header: "الدورة", dataKey: "course" },
+        { header: "رصد 1", dataKey: "score1" },
+        { header: "رصد 2", dataKey: "score2" },
+        { header: "رصد 3", dataKey: "score3" },
+        { header: "رصد 4", dataKey: "score4" },
+        { header: "رصد 5", dataKey: "score5" },
+        { header: "رصد 6", dataKey: "score6" },
+      ];
+
+      const rows = [];
+      const studentsList = halqat[getCurrentHalqa()] || [];
+      studentsList.forEach((student, index) => {
+        rows.push({
+          number: index + 1,
+          name: student[0],
+          course: student[1],
+          score1: document.getElementById(`score1_${index}`).value || "",
+          score2: document.getElementById(`score2_${index}`).value || "",
+          score3: document.getElementById(`score3_${index}`).value || "",
+          score4: document.getElementById(`score4_${index}`).value || "",
+          score5: document.getElementById(`score5_${index}`).value || "",
+          score6: document.getElementById(`score6_${index}`).value || "",
+        });
+      });
+
+      doc.autoTable({
+        columns,
+        body: rows,
+        startY: 60,
+        styles: { font: "Traditional Arabic", fontSize: 12 },
+        headStyles: { fillColor: [31, 60, 136] },
+        alternateRowStyles: { fillColor: [240, 240, 240] },
+        margin: { left: 40, right: 40 }
+      });
+
+      doc.save(`${halqaTitle.textContent}.pdf`);
+    }
+
+    function exportExcel() {
+      const studentsList = halqat[getCurrentHalqa()] || [];
+      const data = [];
+      data.push(["الرقم", "اسم الطالب", "الدورة", "رصد 1", "رصد 2", "رصد 3", "رصد 4", "رصد 5", "رصد 6"]);
+
+      studentsList.forEach((student, index) => {
+        data.push([
+          index + 1,
+          student[0],
+          student[1],
+          document.getElementById(`score1_${index}`).value || "",
+          document.getElementById(`score2_${index}`).value || "",
+          document.getElementById(`score3_${index}`).value || "",
+          document.getElementById(`score4_${index}`).value || "",
+          document.getElementById(`score5_${index}`).value || "",
+          document.getElementById(`score6_${index}`).value || "",
+        ]);
+      });
+
+      const worksheet = XLSX.utils.aoa_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "الرصد");
+      XLSX.writeFile(workbook, `${halqaTitle.textContent}.xlsx`);
+    }
+
+    function getCurrentHalqa() {
+      switch(halqaTitle.textContent){
+        case "حلقة الإمام البخاري": return "bukhari";
+        case "حلقة الإمام مسلم": return "muslim";
+        case "حلقة الإمام أبو داود": return "abudawood";
+        case "حلقة الإمام الترمذي": return "tirmidhi";
+        default: return "bukhari";
+      }
+    }
+
+    // زر إرسال واتساب - يظهر بيانات الرصد مع الأسماء بطريقة نصية
+    function sendWhatsApp() {
+      const studentsList = halqat[getCurrentHalqa()] || [];
+      let message = `${halqaTitle.textContent}\n\n`;
+      studentsList.forEach((student, index) => {
+        const scores = [
+          document.getElementById(`score1_${index}`).value || "-",
+          document.getElementById(`score2_${index}`).value || "-",
+          document.getElementById(`score3_${index}`).value || "-",
+          document.getElementById(`score4_${index}`).value || "-",
+          document.getElementById(`score5_${index}`).value || "-",
+          document.getElementById(`score6_${index}`).value || "-",
+        ].join(", ");
+        message += `${index + 1}. ${student[0]} (${student[1]}): ${scores}\n`;
+      });
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+    }
+
+    // تحميل التقرير كصورة باستخدام html2canvas
+    function downloadAsImage() {
+      html2canvas(container).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `${halqaTitle.textContent}.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+
+    // حفظ تقرير مضغوط (ZIP) فيه PDF و Excel معًا
+    async function saveReportZip() {
+      const zip = new JSZip();
+
+      // PDF
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      doc.setFont("Traditional Arabic", "normal");
+      doc.setFontSize(18);
+      doc.text(halqaTitle.textContent, 40, 40);
+      const columns = [
+        { header: "الرقم", dataKey: "number" },
+        { header: "اسم الطالب", dataKey: "name" },
+        { header: "الدورة", dataKey: "course" },
+        { header: "رصد 1", dataKey: "score1" },
+        { header: "رصد 2", dataKey: "score2" },
+        { header: "رصد 3", dataKey: "score3" },
+        { header: "رصد 4", dataKey: "score4" },
+        { header: "رصد 5", dataKey: "score5" },
+        { header: "رصد 6", dataKey: "score6" },
+      ];
+      const rows = [];
+      const studentsList = halqat[getCurrentHalqa()] || [];
+      studentsList.forEach((student, index) => {
+        rows.push({
+          number: index + 1,
+          name: student[0],
+          course: student[1],
+          score1: document.getElementById(`score1_${index}`).value || "",
+          score2: document.getElementById(`score2_${index}`).value || "",
+          score3: document.getElementById(`score3_${index}`).value || "",
+          score4: document.getElementById(`score4_${index}`).value || "",
+          score5: document.getElementById(`score5_${index}`).value || "",
+          score6: document.getElementById(`score6_${index}`).value || "",
+        });
+      });
+
+      doc.autoTable({
+        columns,
+        body: rows,
+        startY: 60,
+        styles: { font: "Traditional Arabic", fontSize: 12 },
+        headStyles: { fillColor: [31, 60, 136] },
+        alternateRowStyles: { fillColor: [240, 240, 240] },
+        margin: { left: 40, right: 40 }
+      });
+
+      const pdfDataUri = doc.output('blob');
+
+      // Excel
+      const data = [];
+      data.push(["الرقم", "اسم الطالب", "الدورة", "رصد 1", "رصد 2", "رصد 3", "رصد 4", "رصد 5", "رصد 6"]);
+
+      studentsList.forEach((student, index) => {
+        data.push([
+          index + 1,
+          student[0],
+          student[1],
+          document.getElementById(`score1_${index}`).value || "",
+          document.getElementById(`score2_${index}`).value || "",
+          document.getElementById(`score3_${index}`).value || "",
+          document.getElementById(`score4_${index}`).value || "",
+          document.getElementById(`score5_${index}`).value || "",
+          document.getElementById(`score6_${index}`).value || "",
+        ]);
+      });
+
+      const worksheet = XLSX.utils.aoa_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "الرصد");
+      const excelBlob = new Blob([XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })], { type: "application/octet-stream" });
+
+      // إضافة الملفات للـ ZIP
+      zip.file(`${halqaTitle.textContent}.pdf`, pdfDataUri);
+      zip.file(`${halqaTitle.textContent}.xlsx`, excelBlob);
+
+      const content = await zip.generateAsync({ type: "blob" });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(content);
+      a.download = `${halqaTitle.textContent}_التقرير.zip`;
+      a.click();
+    }
   </script>
 </body>
 </html>
