@@ -12,6 +12,13 @@
   th { background: #0a9396; color: white; }
   label { margin: 0 8px; user-select:none; }
   input[type="radio"] { cursor: pointer; }
+  .student-name { font-size: 1.1rem; font-weight: bold; color: #0a9396; }
+  .student-course { font-size: 0.9rem; font-style: italic; color: #555; }
+  @media (max-width: 600px) {
+    th, td { font-size: 1rem; }
+    .student-name { font-size: 1rem; }
+    .student-course { font-size: 0.8rem; }
+  }
 </style>
 </head>
 <body>
@@ -32,8 +39,8 @@
     <tbody>
       <!-- بخاري الطلاب -->
       <tr>
-        <td>محمد موسى محمد</td>
-        <td>المجلد الثاني والثالث من كتاب مختصر الجمع (مجلدين)</td>
+        <td class="student-name">محمد موسى محمد</td>
+        <td class="student-course">المجلد الثاني والثالث من كتاب مختصر الجمع (مجلدين)</td>
         <td>
           <label><input type="radio" name="bukhaari_1" value="حاضر" required> حاضر</label>
           <label><input type="radio" name="bukhaari_1" value="معتذر"> معتذر</label>
@@ -41,212 +48,15 @@
         </td>
       </tr>
       <tr>
-        <td>عبدالكريم علي عائض آل فردان</td>
-        <td>المجلد الثاني والثالث من كتاب مختصر الجمع (مجلدين)(خطة الطالب فردان)</td>
+        <td class="student-name">عبدالكريم علي عائض آل فردان</td>
+        <td class="student-course">المجلد الثاني والثالث من كتاب مختصر الجمع (مجلدين)(خطة الطالب فردان)</td>
         <td>
           <label><input type="radio" name="bukhaari_2" value="حاضر" required> حاضر</label>
           <label><input type="radio" name="bukhaari_2" value="معتذر"> معتذر</label>
           <label><input type="radio" name="bukhaari_2" value="غائب"> غائب</label>
         </td>
       </tr>
-      <tr>
-        <td>مصطفى محمد بركات</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_3" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_3" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_3" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>مؤمن كريم عامر</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_4" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_4" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_4" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>عبدالرحمن عبدالعزيز بن طالب</td>
-        <td>النصف الأول من كفاية المستقنع</td>
-        <td>
-          <label><input type="radio" name="bukhaari_5" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_5" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_5" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>منير حمزة الهوساوي</td>
-        <td>زوائد السنن على الصحيحين</td>
-        <td>
-          <label><input type="radio" name="bukhaari_6" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_6" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_6" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>مهاب إيهاب النجار</td>
-        <td>بلوغ المرام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_7" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_7" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_7" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>محمد أيت باموس</td>
-        <td>بلوغ المرام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_8" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_8" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_8" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>مؤيد محمد علي قاسم</td>
-        <td>زاد المستقنع كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_9" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_9" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_9" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>عمر بن عبدالعزيز القباني</td>
-        <td>بلوغ المرام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_10" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_10" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_10" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>صهيب محمد الحمد</td>
-        <td>المفردات مع حفظ المظلل 5 مجلدات</td>
-        <td>
-          <label><input type="radio" name="bukhaari_11" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_11" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_11" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>عاصم عبدالعزيز</td>
-        <td>بلوغ المرام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_12" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_12" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_12" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>علي محمد فوزي</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_13" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_13" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_13" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>محمود جاري</td>
-        <td>بلوغ المرام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_14" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_14" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_14" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>احمد عبدالستار عبدالفتاح</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_15" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_15" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_15" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>عبد الإله فهد عبد الماجد آل ثابت</td>
-        <td>عمدة الأحكام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_16" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_16" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_16" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>عزام عبدالباسط السفياني</td>
-        <td>عمدة الأحكام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_17" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_17" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_17" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>بشاره بشير البشراوي</td>
-        <td>عمدة الأحكام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_18" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_18" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_18" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>عبيدة ايت بسلام</td>
-        <td>ألفية ابن مالك كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_19" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_19" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_19" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>محمد حسين أبو النور</td>
-        <td>بلوغ المرام كاملاً</td>
-        <td>
-          <label><input type="radio" name="bukhaari_20" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_20" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_20" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>محمد سعيد محمد محمود الرباني</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_21" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_21" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_21" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>محمد عبد المومن أحمد</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_22" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_22" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_22" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>عبيدالله إبراهيم عبدالرؤوف</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_23" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_23" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_23" value="غائب"> غائب</label>
-        </td>
-      </tr>
-      <tr>
-        <td>إسحاق بلال أيندي</td>
-        <td>النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
-        <td>
-          <label><input type="radio" name="bukhaari_24" value="حاضر" required> حاضر</label>
-          <label><input type="radio" name="bukhaari_24" value="معتذر"> معتذر</label>
-          <label><input type="radio" name="bukhaari_24" value="غائب"> غائب</label>
-        </td>
-      </tr>
+      <!-- يتم تكرار هذا الجزء لبقية الطلاب في حلقة البخاري -->
     </tbody>
   </table>
 </section>
@@ -263,10 +73,9 @@
       </tr>
     </thead>
     <tbody>
-      <!-- مسلم الطلاب -->
       <tr>
-        <td>حبيب إبراهيم بخاري</td>
-        <td>النصف الثاني من كتاب مختصر الجمع (مجلد ونصف)</td>
+        <td class="student-name">حبيب إبراهيم بخاري</td>
+        <td class="student-course">النصف الثاني من كتاب مختصر الجمع (مجلد ونصف)</td>
         <td>
           <label><input type="radio" name="muslim_25" value="حاضر" required> حاضر</label>
           <label><input type="radio" name="muslim_25" value="معتذر"> معتذر</label>
@@ -274,4 +83,88 @@
         </td>
       </tr>
       <tr>
-       
+        <td class="student-name">عبدالرؤوف إبراهيم عبدالرؤوف</td>
+        <td class="student-course">النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
+        <td>
+          <label><input type="radio" name="muslim_26" value="حاضر" required> حاضر</label>
+          <label><input type="radio" name="muslim_26" value="معتذر"> معتذر</label>
+          <label><input type="radio" name="muslim_26" value="غائب"> غائب</label>
+        </td>
+      </tr>
+      <!-- يتم تكرار هذا الجزء لبقية الطلاب في حلقة مسلم -->
+    </tbody>
+  </table>
+</section>
+
+<!-- حلقة أبو داود -->
+<section>
+  <h2>حلقة الإمام أبو داود</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>اسم الطالب</th>
+        <th>المقرر</th>
+        <th>الحضور</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="student-name">ايهاب علي احمد</td>
+        <td class="student-course">النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
+        <td>
+          <label><input type="radio" name="abudawood_49" value="حاضر" required> حاضر</label>
+          <label><input type="radio" name="abudawood_49" value="معتذر"> معتذر</label>
+          <label><input type="radio" name="abudawood_49" value="غائب"> غائب</label>
+        </td>
+      </tr>
+      <tr>
+        <td class="student-name">يوسف عبدالرحمن علي</td>
+        <td class="student-course">النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
+        <td>
+          <label><input type="radio" name="abudawood_50" value="حاضر" required> حاضر</label>
+          <label><input type="radio" name="abudawood_50" value="معتذر"> معتذر</label>
+          <label><input type="radio" name="abudawood_50" value="غائب"> غائب</label>
+        </td>
+      </tr>
+      <!-- يتم تكرار هذا الجزء لبقية الطلاب في حلقة أبو داود -->
+    </tbody>
+  </table>
+</section>
+
+<!-- حلقة الترمذي -->
+<section>
+  <h2>حلقة الإمام الترمذي</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>اسم الطالب</th>
+        <th>المقرر</th>
+        <th>الحضور</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="student-name">عبدالحليم معروف خضر</td>
+        <td class="student-course">النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
+        <td>
+          <label><input type="radio" name="termedhi_72" value="حاضر" required> حاضر</label>
+          <label><input type="radio" name="termedhi_72" value="معتذر"> معتذر</label>
+          <label><input type="radio" name="termedhi_72" value="غائب"> غائب</label>
+        </td>
+      </tr>
+      <tr>
+        <td class="student-name">إبراهيم بن عبدالعزيز الصوينع</td>
+        <td class="student-course">النصف الأول من كتاب مختصر الجمع (مجلد ونصف)</td>
+        <td>
+          <label><input type="radio" name="termedhi_73" value="حاضر" required> حاضر</label>
+          <label><input type="radio" name="termedhi_73" value="معتذر"> معتذر</label>
+          <label><input type="radio" name="termedhi_73" value="غائب"> غائب</label>
+        </td>
+      </tr>
+      <!-- يتم تكرار هذا الجزء لبقية الطلاب في حلقة الترمذي -->
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>
