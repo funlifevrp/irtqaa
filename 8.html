@@ -1,0 +1,66 @@
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>رصد الدرجات - حلقة البخاري</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    h1 { color: #1f3c88; text-align: center; }
+    .row { margin-bottom: 15px; }
+    input { margin: 5px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h1>رصد الدرجات - حلقة الإمام البخاري</h1>
+  <form id="gradesForm">
+    <div id="gradesContainer">
+      <div class="row">
+        <span>محمد موسى محمد</span>
+        <input type="text" name="page_محمد موسى محمد" placeholder="صفحة">
+        <input type="text" name="hadith_محمد موسى محمد" placeholder="حديث">
+        <input type="text" name="grade_محمد موسى محمد" placeholder="درجة">
+      </div>
+      <div class="row">
+        <span>عبدالكريم علي</span>
+        <input type="text" name="page_عبدالكريم علي" placeholder="صفحة">
+        <input type="text" name="hadith_عبدالكريم علي" placeholder="حديث">
+        <input type="text" name="grade_عبدالكريم علي" placeholder="درجة">
+      </div>
+    </div>
+    <input type="text" id="newStudent" placeholder="اسم جديد">
+    <button type="button" onclick="addStudent()">إضافة طالب</button>
+    <button type="submit">حفظ الدرجات</button>
+  </form>
+
+  <script>
+    const WEBAPP_URL = 'PASTE_YOUR_WEBAPP_URL_HERE';
+    function addStudent() {
+      const name = document.getElementById('newStudent').value.trim();
+      if (!name) return alert('ادخل اسم الطالب');
+      const div = document.createElement('div');
+      div.className = 'row';
+      div.innerHTML = `
+        <span>${name}</span>
+        <input type="text" name="page_${name}" placeholder="صفحة">
+        <input type="text" name="hadith_${name}" placeholder="حديث">
+        <input type="text" name="grade_${name}" placeholder="درجة">
+      `;
+      document.getElementById('gradesContainer').appendChild(div);
+      document.getElementById('newStudent').value = '';
+    }
+    document.getElementById('gradesForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const data = {};
+      const formData = new FormData(e.target);
+      formData.forEach((v, k) => data[k] = v);
+      fetch(WEBAPP_URL, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'grades', halqa: 'termedhi', data })
+      })
+      .then(res => res.json()).then(d => alert('تم الحفظ'))
+      .catch(err => alert('خطأ: ' + err));
+    });
+  </script>
+</body>
+</html>
+
+<!--
