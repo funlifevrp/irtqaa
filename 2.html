@@ -1,39 +1,63 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="UTF‑8"><title>حلقة البخاري</title></head>
+<head>
+  <meta charset="UTF-8">
+  <title>تحضير الطلاب - حلقة الإمام البخاري</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; background: #f9f9f9; }
+    h1 { color: #005f73; text-align: center; }
+    .student { margin-bottom: 15px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+  </style>
+</head>
 <body>
-  <h1>تحضير – حلقة الإمام البخاري</h1>
+  <h1>تحضير الطلاب - حلقة الإمام البخاري</h1>
   <form id="attendanceForm">
-    <!-- مثال على طالب -->
-    <div>
-      <span>محمد موسى محمد</span>
-      <label><input type="radio" name="student1" value="حاضر" required> حاضر</label>
-      <label><input type="radio" name="student1" value="معتذر"> معتذر</label>
-      <label><input type="radio" name="student1" value="غائب"> غائب</label>
+    <div id="studentsContainer">
+      <div class="student">
+        <span>محمد موسى محمد</span><br>
+        <label><input type="radio" name="محمد موسى محمد" value="حاضر" required> حاضر</label>
+        <label><input type="radio" name="محمد موسى محمد" value="معتذر"> معتذر</label>
+        <label><input type="radio" name="محمد موسى محمد" value="غائب"> غائب</label>
+      </div>
+      <div class="student">
+        <span>عبدالكريم علي</span><br>
+        <label><input type="radio" name="عبدالكريم علي" value="حاضر" required> حاضر</label>
+        <label><input type="radio" name="عبدالكريم علي" value="معتذر"> معتذر</label>
+        <label><input type="radio" name="عبدالكريم علي" value="غائب"> غائب</label>
+      </div>
     </div>
-    <!-- كرر حسب عدد الطلاب -->
+    <input type="text" id="newStudent" placeholder="اسم جديد">
+    <button type="button" onclick="addStudent()">إضافة طالب</button>
     <button type="submit">حفظ التحضير</button>
   </form>
 
   <script>
-    const WEBAPP_URL = 'YOUR_WEBAPP_URL'; // رابط Google Apps Script
-    document.getElementById('attendanceForm').addEventListener('submit', event=>{
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const obj = {};
-      formData.forEach((v,k)=> obj[k]=v);
+    const WEBAPP_URL = 'PASTE_YOUR_WEBAPP_URL_HERE';
+    function addStudent() {
+      const name = document.getElementById('newStudent').value.trim();
+      if (!name) return alert('ادخل اسم الطالب');
+      const div = document.createElement('div');
+      div.className = 'student';
+      div.innerHTML = `
+        <span>${name}</span><br>
+        <label><input type="radio" name="${name}" value="حاضر" required> حاضر</label>
+        <label><input type="radio" name="${name}" value="معتذر"> معتذر</label>
+        <label><input type="radio" name="${name}" value="غائب"> غائب</label>
+      `;
+      document.getElementById('studentsContainer').appendChild(div);
+      document.getElementById('newStudent').value = '';
+    }
+    document.getElementById('attendanceForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const data = {};
+      const formData = new FormData(e.target);
+      formData.forEach((v, k) => data[k] = v);
       fetch(WEBAPP_URL, {
-        method:'POST',
-        mode:'cors',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          type:'attendance',
-          halqa:'muslim',
-          data: obj
-        })
-      }).then(r=> r.json().then(j=>{
-        alert(j.result==='success'? 'تم حفظ التحضير':'خطأ: '+j.error);
-      })).catch(err=>alert(err));
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'attendance', halqa: 'muslim', data })
+      })
+      .then(res => res.json()).then(d => alert('تم الحفظ'))
+      .catch(err => alert('خطأ: ' + err));
     });
   </script>
 </body>
