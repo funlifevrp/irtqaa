@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF‑8"><title>حلقة البخاري</title></head>
+<body>
+  <h1>تحضير – حلقة الإمام البخاري</h1>
+  <form id="attendanceForm">
+    <!-- مثال على طالب -->
+    <div>
+      <span>محمد موسى محمد</span>
+      <label><input type="radio" name="student1" value="حاضر" required> حاضر</label>
+      <label><input type="radio" name="student1" value="معتذر"> معتذر</label>
+      <label><input type="radio" name="student1" value="غائب"> غائب</label>
+    </div>
+    <!-- كرر حسب عدد الطلاب -->
+    <button type="submit">حفظ التحضير</button>
+  </form>
+
+  <script>
+    const WEBAPP_URL = 'YOUR_WEBAPP_URL'; // رابط Google Apps Script
+    document.getElementById('attendanceForm').addEventListener('submit', event=>{
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const obj = {};
+      formData.forEach((v,k)=> obj[k]=v);
+      fetch(WEBAPP_URL, {
+        method:'POST',
+        mode:'cors',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          type:'attendance',
+          halqa:'tirmidhi',
+          data: obj
+        })
+      }).then(r=> r.json().then(j=>{
+        alert(j.result==='success'? 'تم حفظ التحضير':'خطأ: '+j.error);
+      })).catch(err=>alert(err));
+    });
+  </script>
+</body>
+</html>
