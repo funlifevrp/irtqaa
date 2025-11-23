@@ -36,11 +36,10 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       font-family: 'Traditional Arabic', serif;
     }
-    /* زر القائمة فوق يمين */
     #menuBtn {
       position: absolute;
       top: 10px;
-      left: 20px; /* بالعربي يمين */
+      left: 20px;
       font-size: 2.2rem;
       cursor: pointer;
       user-select: none;
@@ -68,7 +67,6 @@
       background-color: #1f3c88;
       color: white;
     }
-
     .container {
       max-width: 900px;
       margin: auto;
@@ -109,7 +107,7 @@
       font-family: 'Traditional Arabic', serif;
     }
     .course {
-	  font-weight: bold;
+      font-weight: bold;
       font-family: 'Traditional Arabic', serif;
       font-size: 0.95rem;
       color: #555;
@@ -190,102 +188,97 @@
     <button onclick="exportExcel()">تصدير Excel</button>
     <button onclick="sendWhatsApp()">إرسال واتساب</button>
     <button onclick="downloadAsImage()">تحميل كصورة</button>
+	<button onclick="clearData()">تصفير البيانات</button>
     <button onclick="saveReportZip()">حفظ التقرير</button>
   </div>
 
   <script>
     const halqat = {
       bukhari: [
-    ["محمد علي محمد حمزة", "المجلد الخامس - مهذب"],
-    ["محمد عبد الرحمن أيده", "المجلد الثاني - مهذب"],
-    ["أحمد محمد عبد الرحمن أيده", "المجلد الأول كاملاً - مختصر الجمع"],
-    ["عبدالرحمن محمد عبدالمتين عثماني", "المجلد الثالث - السنن"],
-    ["فردوس أبدونا سادات", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["عثمان إبراهيم عثمان", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["أنس ساري", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["محمد موسى محمد", "المجلد الأول كاملاً - مختصر الجمع"],
-    ["إبراهيم بن عبدالعزيز الصوينع", "النصف الأول من المجلد الثالث - مختصر الجمع"],
-    ["ابراهيم عبدو إدريس", "النصف الأول من بلوغ المرام"],
-    ["مراد محمد الطراونة", "النصف الأول من بلوغ المرام"],
-    ["محمد نورو زامباليغرى", "النصف الأول من بلوغ المرام"],
-    ["سعد إبراهيم القرشي", "بلوغ المرام كاملاً"],
-    ["عبد الرحمن بن حسين القحطاني", "النصف الأول من بلوغ المرام"],
-    ["عبد الرحمن مبارك محمد القحطاني", "عمدة الأحكام كاملاً"],
-    ["محمد حمزة الزبيدي", "عمدة الأحكام كاملاً"],
-    ["معاذ العبدالسلام", "عمدة الأحكام كاملاً"],
-    ["فارس تركي الرشيد", "عمدة الأحكام كاملاً"],
-    ["المنذر عامر الشمراني", "النصف الأول من زاد المستقنع"],
-    ["عبدالرحمن محمد باوزير", "النصف الأول من ألفية بن مالك"],
-    ["محمد عبدو إدريس", "النصف الأول من بلوغ المرام"],
-    ["محمد حمزة حسين جحاف", "النصف الأول من بلوغ المرام"],
-    ["معتز محمد النعمي", "عمدة الأحكام كاملاً"],
-    ["محمد علاء ربيع", "عمدة الأحكام كاملاً"],
-    ["زبير محكم بيك سفروف", "عمدة الأحكام كاملاً"],
-    ["جار الله الجار الله", "عمدة الأحكام كاملاً"]
-],
-muslim: [
-    ["عبدالله أيوب علي", "النصف الثاني من المجلد الخامس - مهذب"],
-    ["محمد علي أبو بكر", "المتفق كاملاً"],
-    ["احمد محمد حسين", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["أحمد يحيى عبدالحميد صقر", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["ابراهيم يسلم الصيعري", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["وليد حسن العامري", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["آدم موسى يوسف", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["محمد حسن السيد دياب", "المجلد الأول كاملاً - مختصر الجمع"],
-    ["عبدالكريم علي عايض ال فردان", "النصف الثاني من المجلد الثالث - مختصر الجمع"],
-    ["أحمد عبد الستار محمد محمد", "النصف الثاني من المجلد الثاني - مختصر الجمع"],
-    ["سلمان محمد الشيحة", "النصف الأول من بلوغ المرام"],
-    ["عبدالله بن مسفر بن سفر الغبيوي", "النصف الثاني من بلوغ المرام"],
-    ["فهد بن محمد العجمي", "النصف الأول من بلوغ المرام"],
-    ["ألفا محمد بيلو بري", "عمدة الأحكام كاملاً"],
-    ["عقيل خالد العقيل", "عمدة الأحكام كاملاً"],
-    ["محمد بن علي الخضيري", "زاد المستقنع كاملاً"],
-    ["ناصر بن محمد الموسى", "النصف الأول من ألفية بن مالك"],
-    ["أحمد علي بن عفيف", "النصف الأول من بلوغ المرام"],
-    ["عماد أبو بكر محمد آدم", "النصف الأول من بلوغ المرام"],
-    ["مصعب علاء بركات", "عمدة الأحكام كاملاً"],
-    ["عبد الرحمن أيمن الزعبي", "عمدة الأحكام كاملاً"],
-    ["عبد العزيز محمد إسحاق", "عمدة الأحكام كاملاً"],
-    ["محمد فضلان", "المجلد الثالث - مهذب"],
-    ["عبدالفتاح", "المجلد الثاني كاملاً - مختصر الجمع"],
-    ["عبدالرحيم طارش الكركز", "النصف الأول من المتفق"],
-    ["نجيب محمد أحمد هزاع", "النصف الأول من بلوغ المرام"]
-],
-
-abudawood: [
-  ["تست", "تست"]
-],
-
-
-tirmidhi: [
-    ["صهيب الحمد", "المجلد الرابع - مهذب"],
-    ["منير حمزة الهوساوي", "المجلد الخامس - مهذب"],
-    ["عبدالمالك ياسمين امين", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["عبدالصمد ياسمين امين", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["خالد عرفات يحيى عيسى", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["أبوبكر ثالث سراج", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["عبد الحكيم إدريس أولاديميجي", "النصف الأول من المجلد الأول - مختصر الجمع"],
-    ["علي غوث عبد الله كونتي", "النصف الثاني من المجلد الأول - مختصر الجمع"],
-    ["يوسف عبدالرحمن علي", "المجلد الثاني كاملاً - مختصر الجمع"],
-    ["عبدالرحمن بن عبدالله بن إسماعيل الشرعبي", "النصف الأول من مختصر الجمع (مجلد ونصف)"],
-    ["محمد عبدالله منصور الغريب", "النصف الأول من المجلد الثاني - مختصر الجمع"],
-    ["سمير جمال حسن الشامي", "النصف الأول من بلوغ المرام"],
-    ["موسى زكريا عيسى", "النصف الأول من بلوغ المرام"],
-    ["ياسر بن عبدالعزيز الدويش", "النصف الأول من بلوغ المرام"],
-    ["أنس بن عبدالرحمن الشدي", "بلوغ المرام كاملاً"],
-    ["عبداللطيف بن حسن السعيد", "عمدة الأحكام كاملاً"],
-    ["شداد عمر أمين", "عمدة الأحكام كاملاً"],
-    ["احمد بن إبراهيم الهاشمي", "عمدة الأحكام كاملاً"],
-    ["اويس حمد البابطين", "عمدة الأحكام كاملاً"],
-    ["عمر حمزة الأنصاري", "النصف الأول من ألفية بن مالك"],
-    ["فهد احمد الخالدي", "كتاب التوحيد"],
-    ["عبد الله عمار الجرادي", "النصف الأول من بلوغ المرام"],
-    ["محمد جهاد حماد", "عمدة الأحكام كاملاً"],
-    ["إبراهيم حمزة عيدروس", "عمدة الأحكام كاملاً"],
-    ["كامل رمضان", "الجمع"],
-    ["مرتضى أديبايو", "عمدة الأحكام كاملاً"],
-    ["عبدالله ياسر أحمد المحمودي", "عمدة الأحكام كاملاً"]
-]
+        ["محمد علي محمد حمزة", "المجلد الخامس - مهذب"],
+        ["محمد عبد الرحمن أيده", "المجلد الثاني - مهذب"],
+        ["أحمد محمد عبد الرحمن أيده", "المجلد الأول كاملاً - مختصر الجمع"],
+        ["عبدالرحمن محمد عبدالمتين عثماني", "المجلد الثالث - السنن"],
+        ["فردوس أبدونا سادات", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["عثمان إبراهيم عثمان", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["أنس ساري", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["محمد موسى محمد", "المجلد الأول كاملاً - مختصر الجمع"],
+        ["إبراهيم بن عبدالعزيز الصوينع", "النصف الأول من المجلد الثالث - مختصر الجمع"],
+        ["ابراهيم عبدو إدريس", "النصف الأول من بلوغ المرام"],
+        ["مراد محمد الطراونة", "النصف الأول من بلوغ المرام"],
+        ["محمد نورو زامباليغرى", "النصف الأول من بلوغ المرام"],
+        ["سعد إبراهيم القرشي", "بلوغ المرام كاملاً"],
+        ["عبد الرحمن بن حسين القحطاني", "النصف الأول من بلوغ المرام"],
+        ["عبد الرحمن مبارك محمد القحطاني", "عمدة الأحكام كاملاً"],
+        ["محمد حمزة الزبيدي", "عمدة الأحكام كاملاً"],
+        ["معاذ العبدالسلام", "عمدة الأحكام كاملاً"],
+        ["فارس تركي الرشيد", "عمدة الأحكام كاملاً"],
+        ["المنذر عامر الشمراني", "النصف الأول من زاد المستقنع"],
+        ["عبدالرحمن محمد باوزير", "النصف الأول من ألفية بن مالك"],
+        ["محمد عبدو إدريس", "النصف الأول من بلوغ المرام"],
+        ["محمد حمزة حسين جحاف", "النصف الأول من بلوغ المرام"],
+        ["معتز محمد النعمي", "عمدة الأحكام كاملاً"],
+        ["محمد علاء ربيع", "عمدة الأحكام كاملاً"],
+        ["زبير محكم بيك سفروف", "عمدة الأحكام كاملاً"],
+        ["جار الله الجار الله", "عمدة الأحكام كاملاً"]
+      ],
+      muslim: [
+        ["عبدالله أيوب علي", "النصف الثاني من المجلد الخامس - مهذب"],
+        ["محمد علي أبو بكر", "المتفق كاملاً"],
+        ["احمد محمد حسين", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["أحمد يحيى عبدالحميد صقر", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["ابراهيم يسلم الصيعري", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["وليد حسن العامري", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["آدم موسى يوسف", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["محمد حسن السيد دياب", "المجلد الأول كاملاً - مختصر الجمع"],
+        ["عبدالكريم علي عايض ال فردان", "النصف الثاني من المجلد الثالث - مختصر الجمع"],
+        ["أحمد عبد الستار محمد محمد", "النصف الثاني من المجلد الثاني - مختصر الجمع"],
+        ["سلمان محمد الشيحة", "النصف الأول من بلوغ المرام"],
+        ["عبدالله بن مسفر بن سفر الغبيوي", "النصف الثاني من بلوغ المرام"],
+        ["فهد بن محمد العجمي", "النصف الأول من بلوغ المرام"],
+        ["ألفا محمد بيلو بري", "عمدة الأحكام كاملاً"],
+        ["عقيل خالد العقيل", "عمدة الأحكام كاملاً"],
+        ["محمد بن علي الخضيري", "زاد المستقنع كاملاً"],
+        ["ناصر بن محمد الموسى", "النصف الأول من ألفية بن مالك"],
+        ["أحمد علي بن عفيف", "النصف الأول من بلوغ المرام"],
+        ["عماد أبو بكر محمد آدم", "النصف الأول من بلوغ المرام"],
+        ["مصعب علاء بركات", "عمدة الأحكام كاملاً"],
+        ["عبد الرحمن أيمن الزعبي", "عمدة الأحكام كاملاً"],
+        ["عبد العزيز محمد إسحاق", "عمدة الأحكام كاملاً"],
+        ["محمد فضلان", "المجلد الثالث - مهذب"],
+        ["عبدالفتاح", "المجلد الثاني كاملاً - مختصر الجمع"],
+        ["عبدالرحيم طارش الكركز", "النصف الأول من المتفق"],
+        ["نجيب محمد أحمد هزاع", "النصف الأول من بلوغ المرام"]
+      ],
+      tirmidhi: [
+        ["صهيب الحمد", "المجلد الرابع - مهذب"],
+        ["منير حمزة الهوساوي", "المجلد الخامس - مهذب"],
+        ["عبدالمالك ياسمين امين", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["عبدالصمد ياسمين امين", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["خالد عرفات يحيى عيسى", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["أبوبكر ثالث سراج", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["عبد الحكيم إدريس أولاديميجي", "النصف الأول من المجلد الأول - مختصر الجمع"],
+        ["علي غوث عبد الله كونتي", "النصف الثاني من المجلد الأول - مختصر الجمع"],
+        ["يوسف عبدالرحمن علي", "المجلد الثاني كاملاً - مختصر الجمع"],
+        ["عبدالرحمن بن عبدالله بن إسماعيل الشرعبي", "النصف الأول من مختصر الجمع (مجلد ونصف)"],
+        ["محمد عبدالله منصور الغريب", "النصف الأول من المجلد الثاني - مختصر الجمع"],
+        ["سمير جمال حسن الشامي", "النصف الأول من بلوغ المرام"],
+        ["موسى زكريا عيسى", "النصف الأول من بلوغ المرام"],
+        ["ياسر بن عبدالعزيز الدويش", "النصف الأول من بلوغ المرام"],
+        ["أنس بن عبدالرحمن الشدي", "بلوغ المرام كاملاً"],
+        ["عبداللطيف بن حسن السعيد", "عمدة الأحكام كاملاً"],
+        ["شداد عمر أمين", "عمدة الأحكام كاملاً"],
+        ["احمد بن إبراهيم الهاشمي", "عمدة الأحكام كاملاً"],
+        ["اويس حمد البابطين", "عمدة الأحكام كاملاً"],
+        ["عمر حمزة الأنصاري", "النصف الأول من ألفية بن مالك"],
+        ["فهد احمد الخالدي", "كتاب التوحيد"],
+        ["عبد الله عمار الجرادي", "النصف الأول من بلوغ المرام"],
+        ["محمد جهاد حماد", "عمدة الأحكام كاملاً"],
+        ["إبراهيم حمزة عيدروس", "عمدة الأحكام كاملاً"],
+        ["كامل رمضان", "الجمع"],
+        ["مرتضى أديبايو", "عمدة الأحكام كاملاً"],
+        ["عبدالله ياسر أحمد المحمودي", "عمدة الأحكام كاملاً"]
+      ]
     };
 
     const container = document.getElementById("formContainer");
@@ -306,9 +299,24 @@ tirmidhi: [
       halqaTitle.textContent = titleText;
 
       const studentsList = halqat[key] || [];
+let savedDataRaw = localStorage.getItem(key);
+let savedData = [];
+
+try {
+  const parsed = JSON.parse(savedDataRaw);
+  if (Array.isArray(parsed)) {
+    savedData = parsed;
+  }
+} catch(e) {
+  savedData = [];
+}
+
       studentsList.forEach((student, index) => {
         const block = document.createElement("div");
         block.className = "student-block";
+
+        const saved = savedData[index] || { page: "", hadith: "", grade: "" };
+
         block.innerHTML = `
           <div class="top-row">
             <div class="number">${index + 1}</div>
@@ -318,13 +326,28 @@ tirmidhi: [
             </div>
           </div>
           <div class="bottom-row">
-            <input type="text" placeholder="صفحة" maxlength="5" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
-            <input type="text" placeholder="حديث" maxlength="5" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
-            <input type="text" placeholder="درجة" maxlength="5" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+            <input type="text" placeholder="صفحة" maxlength="5" value="${saved.page}" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); saveData()" />
+            <input type="text" placeholder="حديث" maxlength="5" value="${saved.hadith}" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); saveData()" />
+            <input type="text" placeholder="درجة" maxlength="5" value="${saved.grade}" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); saveData()" />
           </div>
         `;
         container.appendChild(block);
       });
+    }
+
+    function saveData() {
+      const currentHalqa = halqaTitle.textContent.includes("بخاري") ? "bukhari" :
+                           halqaTitle.textContent.includes("مسلم") ? "muslim" :
+                           halqaTitle.textContent.includes("ترمذي") ? "tirmidhi" : "bukhari";
+      const data = Array.from(document.querySelectorAll(".student-block")).map(block => {
+        const inputs = block.querySelectorAll("input");
+        return {
+          page: inputs[0].value.trim(),
+          hadith: inputs[1].value.trim(),
+          grade: inputs[2].value.trim()
+        };
+      });
+      localStorage.setItem(currentHalqa, JSON.stringify(data));
     }
 
     loadHalqa("bukhari");
@@ -355,143 +378,114 @@ tirmidhi: [
           grade: inputs[2].value.trim()
         };
       });
+    }function exportExcel() {
+  const data = gatherData();
+  const wb = XLSX.utils.book_new();
+  const wsData = [
+    ["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"],
+    ...data.map(d => [d.number, d.name, d.course, d.page, d.hadith, d.grade])
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  XLSX.utils.book_append_sheet(wb, ws, "تقييم الحلقة");
+  XLSX.writeFile(wb, "تقييم_الحلقة.xlsx");
+}
+function clearData() {
+  const currentHalqa = halqaTitle.textContent.includes("بخاري") ? "bukhari" :
+                       halqaTitle.textContent.includes("مسلم") ? "muslim" :
+                       halqaTitle.textContent.includes("ترمذي") ? "tirmidhi" : "bukhari";
+
+  // حذف البيانات من التخزين
+  localStorage.removeItem(currentHalqa);
+
+  // إعادة تحميل الحلقة من جديد بدون بيانات
+  loadHalqa(currentHalqa);
+
+  alert("تم تصفير بيانات الحلقة بنجاح");
+}
+
+function sendWhatsApp() {
+  const data = gatherData();
+  let text = `${halqaTitle.textContent}:\n\n`;
+  data.forEach(d => {
+    text += `${d.number}. ${d.name}\n${d.course}\nصفحة: ${d.page}, حديث: ${d.hadith}, درجة: ${d.grade}\n\n`;
+  });
+  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank");
+}
+
+function downloadAsImage() {
+  html2canvas(container, { scale: 2 }).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "تقييم_الحلقة.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+}
+
+async function saveReportZip() {
+  const zip = new JSZip();
+  const data = gatherData();
+
+  // PDF
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "pt",
+    format: "a4"
+  });
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(18);
+  doc.text(halqaTitle.textContent, 40, 40);
+
+  const rows = data.map(d => [
+    d.number, d.name, d.course, d.page, d.hadith, d.grade
+  ]);
+
+  doc.autoTable({
+    head: [["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"]],
+    body: rows,
+    startY: 70,
+    styles: {
+      font: "TraditionalArabic",
+      fontSize: 11,
+      cellPadding: 3,
+      halign: "center",
+      valign: "middle"
+    },
+    headStyles: {
+      fillColor: [31, 60, 136],
+      textColor: [255, 255, 255]
     }
+  });
 
-    function generatePDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "pt",
-        format: "a4"
-      });
-      const data = gatherData();
+  const pdfBlob = doc.output("blob");
+  zip.file("تقييم_الحلقة.pdf", pdfBlob);
 
-      doc.setFont("Traditional Arabic", "normal");
-      doc.setFontSize(16);
-      doc.text(halqaTitle.textContent, 40, 40);
+  // Excel
+  const wb = XLSX.utils.book_new();
+  const wsData = [
+    ["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"],
+    ...data.map(d => [d.number, d.name, d.course, d.page, d.hadith, d.grade])
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  XLSX.utils.book_append_sheet(wb, ws, "تقييم الحلقة");
+  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  zip.file("تقييم_الحلقة.xlsx", wbout);
 
-      const rows = data.map(d => [
-        d.number,
-        d.name,
-        d.course,
-        d.page,
-        d.hadith,
-        d.grade
-      ]);
-      doc.autoTable({
-        head: [["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"]],
-        body: rows,
-        startY: 60,
-        styles: {
-          font: "Traditional Arabic",
-          fontSize: 10,
-          cellPadding: 4,
-          halign: 'center',
-          valign: 'middle'
-        },
-        headStyles: {
-          fillColor: [31, 60, 136]
-        }
-      });
-      doc.save("تقييم_الحلقة.pdf");
-    }
+  // Image
+  const canvas = await html2canvas(container, { scale: 2 });
+  const imgData = canvas.toDataURL("image/png");
+  const imgBlob = await (await fetch(imgData)).blob();
+  zip.file("تقييم_الحلقة.png", imgBlob);
 
-    function exportExcel() {
-      const data = gatherData();
-      const wb = XLSX.utils.book_new();
-      const wsData = [
-        ["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"],
-        ...data.map(d => [d.number, d.name, d.course, d.page, d.hadith, d.grade])
-      ];
-      const ws = XLSX.utils.aoa_to_sheet(wsData);
-      XLSX.utils.book_append_sheet(wb, ws, "تقييم الحلقة");
-      XLSX.writeFile(wb, "تقييم_الحلقة.xlsx");
-    }
-
-    function sendWhatsApp() {
-      const data = gatherData();
-      let text = `${halqaTitle.textContent}:\n\n`;
-      data.forEach(d => {
-        text += `${d.number}. ${d.name}\n${d.course}\nصفحة: ${d.page}, حديث: ${d.hadith}, درجة: ${d.grade}\n\n`;
-      });
-      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-      window.open(url, "_blank");
-    }
-
-    function downloadAsImage() {
-      html2canvas(container, { scale: 2 }).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "تقييم_الحلقة.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      });
-    }
-
-    async function saveReportZip() {
-      const zip = new JSZip();
-      const data = gatherData();
-
-      // PDF
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "pt",
-        format: "a4"
-      });
-      doc.setFont("Traditional Arabic", "normal");
-      doc.setFontSize(16);
-      doc.text(halqaTitle.textContent, 40, 40);
-      const rows = data.map(d => [
-        d.number,
-        d.name,
-        d.course,
-        d.page,
-        d.hadith,
-        d.grade
-      ]);
-      doc.autoTable({
-        head: [["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"]],
-        body: rows,
-        startY: 60,
-        styles: {
-          font: "Traditional Arabic",
-          fontSize: 10,
-          cellPadding: 4,
-          halign: 'center',
-          valign: 'middle'
-        },
-        headStyles: {
-          fillColor: [31, 60, 136]
-        }
-      });
-      const pdfBlob = doc.output("blob");
-      zip.file("تقييم_الحلقة.pdf", pdfBlob);
-
-      // Excel
-      const wb = XLSX.utils.book_new();
-      const wsData = [
-        ["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"],
-        ...data.map(d => [d.number, d.name, d.course, d.page, d.hadith, d.grade])
-      ];
-      const ws = XLSX.utils.aoa_to_sheet(wsData);
-      XLSX.utils.book_append_sheet(wb, ws, "تقييم الحلقة");
-      const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-      zip.file("تقييم_الحلقة.xlsx", wbout);
-
-      // Image
-      const canvas = await html2canvas(container, { scale: 2 });
-      const imgData = canvas.toDataURL("image/png");
-      const imgBlob = await (await fetch(imgData)).blob();
-      zip.file("تقييم_الحلقة.png", imgBlob);
-
-      // Generate zip
-      zip.generateAsync({ type: "blob" }).then(function(content) {
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(content);
-        link.download = "تقرير_الحلقة.zip";
-        link.click();
-      });
-    }
-  </script>
+  // download ZIP
+  zip.generateAsync({ type: "blob" }).then(content => {
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(content);
+    link.download = "تقرير_الحلقة.zip";
+    link.click();
+  });
+}
+</script>
 </body>
 </html>
