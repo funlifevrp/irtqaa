@@ -1,493 +1,181 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>كشف متابعة ورصد درجات الطلاب </title>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
-  
-  <style>
-    body {
-      font-family: 'Traditional Arabic', serif;
-      background: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-      color: #333;
-      position: relative;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-      position: relative;
-    }
-    header h1 {
-      font-size: 2.7rem;
-      color: #1f3c88;
-      border-bottom: 3px solid #1f3c88;
-      display: inline-block;
-      padding: 8px 25px;
-      border-radius: 10px;
-      background-color: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      font-family: 'Traditional Arabic', serif;
-    }
-    #menuBtn {
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      font-size: 2.2rem;
-      cursor: pointer;
-      user-select: none;
-      color: #1f3c88;
-    }
-    #menuOptions {
-      position: absolute;
-      top: 50px;
-      left: 20px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-      display: none;
-      min-width: 160px;
-      z-index: 1000;
-    }
-    #menuOptions div {
-      padding: 10px 15px;
-      cursor: pointer;
-      font-family: 'Traditional Arabic', serif;
-      font-size: 1rem;
-    }
-    #menuOptions div:hover {
-      background-color: #1f3c88;
-      color: white;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #fff;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-    .student-block {
-      margin-bottom: 18px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-    .top-row {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .number {
-      font-family: 'Traditional Arabic', serif;
-      font-size: 1.3rem;
-      width: 20px;
-      flex-shrink: 0;
-    }
-    .name-course {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-    .name {
-      font-weight: bold;
-      font-size: 1.6rem;
-      color: #1f3c88;
-      white-space: normal;
-      line-height: 1.2;
-      font-family: 'Traditional Arabic', serif;
-    }
-    .course {
-      font-weight: bold;
-      font-family: 'Traditional Arabic', serif;
-      font-size: 0.95rem;
-      color: #555;
-      margin-top: 1px;
-      white-space: normal;
-      line-height: 1.2;
-    }
-    .bottom-row {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-      justify-content: flex-start;
-    }
-    .bottom-row input[type="text"] {
-      width: 65px;
-      padding: 6px;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-      text-align: center;
-      font-family: 'Traditional Arabic', serif;
-      font-size: 1.1rem;
-    }
-    .submit-btn {
-      text-align: center;
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .submit-btn button {
-      padding: 12px 25px;
-      font-size: 16px;
-      background: #1f3c88;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: 'Traditional Arabic', serif;
-      transition: background 0.3s ease;
-    }
-    .submit-btn button:hover {
-      background: #16316e;
-    }
-    @media (max-width: 480px) {
-      .bottom-row input[type="text"] {
-        width: 60px;
-        font-size: 1rem;
-      }
-      .name {
-        font-size: 1.2rem;
-      }
-      .course {
-        font-size: 0.75rem;
-      }
-      .submit-btn {
-        flex-direction: column;
-      }
-      .submit-btn button {
-        width: 100%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>كشف متابعة ورصد درجات الطلاب</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+
+<style>
+body{font-family:'Traditional Arabic',serif;background:#f4f6f9;padding:20px}
+header{text-align:center;position:relative}
+h1{color:#1f3c88;border-bottom:3px solid #1f3c88;display:inline-block;padding:8px 25px;background:#fff;border-radius:10px}
+#menuBtn{position:absolute;left:20px;top:10px;font-size:2rem;cursor:pointer}
+#menuOptions{display:none;position:absolute;left:20px;top:50px;background:#fff;border:1px solid #ccc;border-radius:8px}
+#menuOptions div{padding:10px;cursor:pointer}
+#menuOptions div:hover{background:#1f3c88;color:#fff}
+.container{max-width:900px;margin:auto;background:#fff;padding:25px;border-radius:15px}
+.student-block{border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:10px}
+.top-row{display:flex;gap:10px}
+.number{width:25px}
+.name{font-weight:bold;color:#1f3c88;font-size:1.4rem}
+.course{font-size:0.9rem;color:#555}
+.bottom-row{margin-top:8px;display:flex;gap:10px}
+.bottom-row input{width:70px;text-align:center}
+.submit-btn{text-align:center;margin-top:30px}
+.submit-btn button{margin:5px;padding:10px 20px;background:#1f3c88;color:#fff;border:none;border-radius:6px}
+</style>
 </head>
+
 <body>
-  <header>
-    <div id="menuBtn">☰</div>
-    <h1 id="halqaTitle">حلقة الإمام البخاري</h1>
-    <div id="menuOptions">
-      <div data-halqa="bukhari">حلقة الإمام البخاري</div>
-      <div data-halqa="muslim">حلقة الإمام مسلم</div>
-      <div data-halqa="tirmidhi">حلقة الإمام الترمذي</div>
-    </div>
-  </header>
-  <div class="container" id="formContainer"></div>
-  <div class="submit-btn">
-    <button onclick="generatePDF()">تصدير PDF</button>
-    <button onclick="exportExcel()">تصدير Excel</button>
-    <button onclick="sendWhatsApp()">إرسال واتساب</button>
-    <button onclick="downloadAsImage()">تحميل كصورة</button>
-	<button onclick="clearData()">تصفير البيانات</button>
-    <button onclick="saveReportZip()">حفظ التقرير</button>
-  </div>
+<header>
+<div id="menuBtn">☰</div>
+<h1 id="halqaTitle">حلقة الإمام البخاري</h1>
+<div id="menuOptions">
+<div data-halqa="bukhari">حلقة الإمام البخاري</div>
+<div data-halqa="muslim">حلقة الإمام مسلم</div>
+<div data-halqa="abudawood">حلقة الإمام أبو داود</div>
+</div>
+</header>
 
-  <script>
-const halqat = {
- bukhari: [
-    ["أحمد أمين مقبل","بلوغ المرام"],
-    ["عبد اللّٰه مرزوق الغامدي","عمدة الأحكام"],
-    ["يوسف منير الحربي","عمدة الأحكام"],
-    ["يحيى أحمد الزهراني","عمدة الأحكام"],
-    ["رامي صاح العريني","كتاب التوحيد"],
-    ["خالد محمد القرشي","زاد المستقنع"],
-    ["عبدالرحمن محمد عثماني","السنن"],
-    ["محمد علي أبو بكر","السنن"],
-    ["عبدالباسط عبدالرحمن","الجمع بترتيب المتفق والمفردات"],
-    ["عمر شير علي","الجمع بترتيب المتفق والمفردات"],
-    ["إبراهيم عبدالعزيز الصوينع","مختصر الجمع"],
-    ["محمد علي المصري","مختصر الجمع"],
-    ["خالد عرفات يحيى","مختصر الجمع"],
-    ["علي محمد فوزي","مختصر الجمع"],
-    ["ناصر محمد يوسف","مختصر الجمع"],
-    ["عبداللّه حمزة","مختصر الجمع"],
-    ["حمدي عبد النور الشعبي","مختصر الجمع"],
-    ["أحمد يحيى صقر","مختصر الجمع"],
-    ["خالد صالح الحرير","بلوغ المرام"],
-    ["الهيثم بدر السيف","بلوغ المرام"],
-    ["عاصم عبدالعزيز دعجم","بلوغ المرام"],
-    ["عبيد حمد الدوسري","بلوغ المرام"],
-    ["عبد اللّٰه العبدلي","بلوغ المرام"],
-    ["محمود هوساوي","شرح البلوغ"],
-    ["عمر عبدالعزيز القباني","شرح البلوغ"],
-    ["محمد سعد الكبيسي","عمدة الأحكام"]
-  ],
+<div class="container" id="formContainer"></div>
 
-  muslim: [
-    ["عبدالله أيوب علي","الجمع بترتيب المتفق والمفردات"],
-    ["محمد خالد بن حارس","الجمع بترتيب المتفق والمفردات"],
-    ["أحمد محمد حسين رمضان","مختصر الجمع"],
-    ["إدريس عيسى باثيلي","مختصر الجمع"],
-    ["أحمد عبد الستار محمد محمد","مختصر الجمع"],
-    ["عبد الحكيم إدريس أولاديميجي","مختصر الجمع"],
-    ["محمد حسن السيد دياب","مختصر الجمع"],
-    ["يوسف عبدالرحمن علي محمديه","مختصر الجمع"],
-    ["عمر احمد سونكو","مختصر الجمع"],
-    ["أنس أبوبكر ساري","مختصر الجمع"],
-    ["وليد حسن العامري","مختصر الجمع"],
-    ["احمد محمود تهامى","مختصر الجمع"],
-    ["عبدالله محمد أشرف حسام","بلوغ المرام"],
-    ["أنس خالد عسيري","بلوغ المرام"],
-    ["عبد العزيز بن أحمد الخليوي","بلوغ المرام"],
-    ["محمد راشد الهاجري","بلوغ المرام"],
-    ["خالد الناصر","شرح البلوغ"],
-    ["محمد عبد المجيد الأهدل","شرح البلوغ"],
-    ["عبد اللّٰه بن خالد الجابر","عمدة الأحكام"],
-    ["معاذ بن إبراهيم الغفيلي","عمدة الأحكام"],
-    ["عبداللّه بن سلطان الحمدان","عمدة الأحكام"],
-    ["أحمد عيدروس الكاف","مختصر الجمع"],
-    ["سليمان سعود الغلول","عمدة الأحكام"],
-    ["هيثم بندر السكيت","عمدة الأحكام"],
-    ["عبد العزيز رائد الجسار","كتاب التوحيد"],
-    ["سفيان محمد المشوح","زاد المستقنع"]
-  ],
+<div class="submit-btn">
+<button onclick="generatePDF()">PDF</button>
+<button onclick="exportExcel()">Excel</button>
+<button onclick="sendWhatsApp()">واتساب</button>
+<button onclick="downloadAsImage()">صورة</button>
+<button onclick="clearData()">تصفير</button>
+<button onclick="saveReportZip()">ZIP</button>
+</div>
 
-  tirmidhi: [
-    ["صهيب محمد الحمد","الجمع بترتيب المتفق والمفردات"],
-    ["علي شلبون","الجمع بترتيب المتفق والمفردات"],
-    ["محمد علي بن عادل","الجمع بترتيب المتفق والمفردات"],
-    ["منير حمزة الهوساوي","الجمع بترتيب المتفق والمفردات"],
-    ["ابراهيم يسلم الصيعري","مختصر الجمع"],
-    ["أحمد بن محمد العربي بن طه","مختصر الجمع"],
-    ["خالد ابراهيم شلبي","مختصر الجمع"],
-    ["محمد عبد الله منصور الغريب","مختصر الجمع"],
-    ["عبد الحي عبد الرؤوف","مختصر الجمع"],
-    ["محمد علي جالو","مختصر الجمع"],
-    ["علي غوث عبد اللّٰه كونتي","مختصر الجمع"],
-    ["محمد أحمد السيد حرز الله","بلوغ المرام"],
-    ["راضي سعد الشمري","بلوغ المرام"],
-    ["عبدالله بن عادل الراجحي","بلوغ المرام"],
-    ["زياد بن صالح الحسن","بلوغ المرام"],
-    ["صالح محمد نور إدريس","شرح البلوغ"],
-    ["عبد الرحمن أبو بكر آدم","شرح البلوغ"],
-    ["عمار بن محمد الداوود","مختصر الجمع"],
-    ["يوسف سعد الكبيسي","عمدة الأحكام"],
-    ["معاذ محمد الخليفه","عمدة الأحكام"],
-    ["حسام احميد أبو موسى","عمدة الأحكام"],
-    ["عبدالله بن محمد آل فريان","عمدة الأحكام"],
-    ["احمد بن زايد العتيبي","كتاب التوحيد"],
-    ["فارس بن تركي بن عبدالرحمن","كتاب التوحيد مع العمدة"],
-    ["عبدالله بن مسفر بن سفر الغبيوي","ألفية ابن مالك"],
-    ["عمر حمزة الأنصاري","ألفية ابن مالك"]
-  ]
+<script>
+const halqat={
+bukhari:[
+["أحمد أمين مقبل","بلوغ المرام"],
+["عبد اللّٰه مرزوق الغامدي","عمدة الأحكام"],
+["يوسف منير الحربي","عمدة الأحكام"],
+["يحيى أحمد الزهراني","عمدة الأحكام"],
+["رامي صاح العريني","كتاب التوحيد"],
+["خالد محمد القرشي","زاد المستقنع"],
+["عبدالرحمن محمد عثماني","السنن"],
+["محمد علي أبو بكر","السنن"],
+["عبدالباسط عبدالرحمن","الجمع بترتيب المتفق والمفردات"],
+["عمر شير علي","الجمع بترتيب المتفق والمفردات"],
+["إبراهيم عبدالعزيز الصوينع","مختصر الجمع"],
+["محمد علي المصري","مختصر الجمع"],
+["خالد عرفات يحيى","مختصر الجمع"],
+["علي محمد فوزي","مختصر الجمع"],
+["ناصر محمد يوسف","مختصر الجمع"],
+["عبداللّه حمزة","مختصر الجمع"],
+["حمدي عبد النور الشعبي","مختصر الجمع"],
+["أحمد يحيى صقر","مختصر الجمع"],
+["خالد صالح الحرير","بلوغ المرام"],
+["الهيثم بدر السيف","بلوغ المرام"],
+["عاصم عبدالعزيز دعجم","بلوغ المرام"],
+["عبيد حمد الدوسري","بلوغ المرام"],
+["عبد اللّٰه العبدلي","بلوغ المرام"],
+["محمود هوساوي","شرح البلوغ"],
+["عمر عبدالعزيز القباني","شرح البلوغ"],
+["محمد سعد الكبيسي","عمدة الأحكام"]
+],
+
+muslim:[
+["عبدالله أيوب علي","الجمع بترتيب المتفق والمفردات"],
+["محمد خالد بن حارس","الجمع بترتيب المتفق والمفردات"],
+["أحمد محمد حسين رمضان","مختصر الجمع"],
+["إدريس عيسى باثيلي","مختصر الجمع"],
+["أحمد عبد الستار محمد محمد","مختصر الجمع"],
+["عبد الحكيم إدريس أولاديميجي","مختصر الجمع"],
+["محمد حسن السيد دياب","مختصر الجمع"],
+["يوسف عبدالرحمن علي محمديه","مختصر الجمع"],
+["عمر احمد سونكو","مختصر الجمع"],
+["أنس أبوبكر ساري","مختصر الجمع"],
+["وليد حسن العامري","مختصر الجمع"],
+["احمد محمود تهامى","مختصر الجمع"],
+["عبدالله محمد أشرف حسام","بلوغ المرام"],
+["أنس خالد عسيري","بلوغ المرام"],
+["عبد العزيز بن أحمد الخليوي","بلوغ المرام"],
+["محمد راشد الهاجري","بلوغ المرام"],
+["خالد الناصر","شرح البلوغ"],
+["محمد عبد المجيد الأهدل","شرح البلوغ"],
+["عبد اللّٰه بن خالد الجابر","عمدة الأحكام"],
+["معاذ بن إبراهيم الغفيلي","عمدة الأحكام"],
+["عبداللّه بن سلطان الحمدان","عمدة الأحكام"],
+["أحمد عيدروس الكاف","مختصر الجمع"],
+["سليمان سعود الغلول","عمدة الأحكام"],
+["هيثم بندر السكيت","عمدة الأحكام"],
+["عبد العزيز رائد الجسار","كتاب التوحيد"],
+["سفيان محمد المشوح","زاد المستقنع"]
+],
+
+abudawood:[
+["صهيب محمد الحمد","الجمع بترتيب المتفق والمفردات"],
+["علي شلبون","الجمع بترتيب المتفق والمفردات"],
+["محمد علي بن عادل","الجمع بترتيب المتفق والمفردات"],
+["منير حمزة الهوساوي","الجمع بترتيب المتفق والمفردات"],
+["ابراهيم يسلم الصيعري","مختصر الجمع"],
+["أحمد بن محمد العربي بن طه","مختصر الجمع"],
+["خالد ابراهيم شلبي","مختصر الجمع"],
+["محمد عبد الله منصور الغريب","مختصر الجمع"],
+["عبد الحي عبد الرؤوف","مختصر الجمع"],
+["محمد علي جالو","مختصر الجمع"],
+["علي غوث عبد اللّٰه كونتي","مختصر الجمع"],
+["محمد أحمد السيد حرز الله","بلوغ المرام"],
+["راضي سعد الشمري","بلوغ المرام"],
+["عبدالله بن عادل الراجحي","بلوغ المرام"],
+["زياد بن صالح الحسن","بلوغ المرام"],
+["صالح محمد نور إدريس","شرح البلوغ"],
+["عبد الرحمن أبو بكر آدم","شرح البلوغ"],
+["عمار بن محمد الداوود","مختصر الجمع"],
+["يوسف سعد الكبيسي","عمدة الأحكام"],
+["معاذ محمد الخليفه","عمدة الأحكام"],
+["حسام احميد أبو موسى","عمدة الأحكام"],
+["عبدالله بن محمد آل فريان","عمدة الأحكام"],
+["احمد بن زايد العتيبي","كتاب التوحيد"],
+["فارس بن تركي بن عبدالرحمن","كتاب التوحيد مع العمدة"],
+["عبدالله بن مسفر بن سفر الغبيوي","ألفية ابن مالك"],
+["عمر حمزة الأنصاري","ألفية ابن مالك"]
+]
 };
 
+const container=document.getElementById("formContainer");
+const halqaTitle=document.getElementById("halqaTitle");
+const menuBtn=document.getElementById("menuBtn");
+const menuOptions=document.getElementById("menuOptions");
 
-    const container = document.getElementById("formContainer");
-    const halqaTitle = document.getElementById("halqaTitle");
-    const menuBtn = document.getElementById("menuBtn");
-    const menuOptions = document.getElementById("menuOptions");
-
-    function loadHalqa(key) {
-      container.innerHTML = "";
-      let titleText = "";
-      switch(key){
-        case "bukhari": titleText = "حلقة الإمام البخاري"; break;
-        case "muslim": titleText = "حلقة الإمام مسلم"; break;
-        case "abudawood": titleText = "حلقة الإمام أبو داود"; break;
-        case "tirmidhi": titleText = "حلقة الإمام الترمذي"; break;
-        default: titleText = "حلقة الإمام البخاري";
-      }
-      halqaTitle.textContent = titleText;
-
-      const studentsList = halqat[key] || [];
-let savedDataRaw = localStorage.getItem(key);
-let savedData = [];
-
-try {
-  const parsed = JSON.parse(savedDataRaw);
-  if (Array.isArray(parsed)) {
-    savedData = parsed;
-  }
-} catch(e) {
-  savedData = [];
+function loadHalqa(key){
+container.innerHTML="";
+halqaTitle.textContent=key==="bukhari"?"حلقة الإمام البخاري":key==="muslim"?"حلقة الإمام مسلم":"حلقة الإمام أبو داود";
+(halqat[key]||[]).forEach((s,i)=>{
+const div=document.createElement("div");
+div.className="student-block";
+div.innerHTML=`
+<div class="top-row">
+<div class="number">${i+1}</div>
+<div>
+<div class="name">${s[0]}</div>
+<div class="course">${s[1]}</div>
+</div>
+</div>
+<div class="bottom-row">
+<input placeholder="صفحة">
+<input placeholder="حديث">
+<input placeholder="درجة">
+</div>`;
+container.appendChild(div);
+});
 }
 
-      studentsList.forEach((student, index) => {
-        const block = document.createElement("div");
-        block.className = "student-block";
+menuBtn.onclick=()=>menuOptions.style.display=menuOptions.style.display==="block"?"none":"block";
+menuOptions.querySelectorAll("div").forEach(d=>d.onclick=()=>{loadHalqa(d.dataset.halqa);menuOptions.style.display="none";});
 
-        const saved = savedData[index] || { page: "", hadith: "", grade: "" };
-
-        block.innerHTML = `
-          <div class="top-row">
-            <div class="number">${index + 1}</div>
-            <div class="name-course">
-              <div class="name">${student[0]}</div>
-              <div class="course">${student[1]}</div>
-            </div>
-          </div>
-          <div class="bottom-row">
-            <input type="text" placeholder="صفحة" maxlength="5" value="${saved.page}" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); saveData()" />
-            <input type="text" placeholder="حديث" maxlength="5" value="${saved.hadith}" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); saveData()" />
-            <input type="text" placeholder="درجة" maxlength="5" value="${saved.grade}" pattern="\\d*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); saveData()" />
-          </div>
-        `;
-        container.appendChild(block);
-      });
-    }
-
-    function saveData() {
-      const currentHalqa = halqaTitle.textContent.includes("بخاري") ? "bukhari" :
-                           halqaTitle.textContent.includes("مسلم") ? "muslim" :
-                           halqaTitle.textContent.includes("ترمذي") ? "tirmidhi" : "bukhari";
-      const data = Array.from(document.querySelectorAll(".student-block")).map(block => {
-        const inputs = block.querySelectorAll("input");
-        return {
-          page: inputs[0].value.trim(),
-          hadith: inputs[1].value.trim(),
-          grade: inputs[2].value.trim()
-        };
-      });
-      localStorage.setItem(currentHalqa, JSON.stringify(data));
-    }
-
-    loadHalqa("bukhari");
-
-    menuBtn.onclick = () => {
-      menuOptions.style.display = menuOptions.style.display === "block" ? "none" : "block";
-    };
-
-    menuOptions.querySelectorAll("div").forEach(div => {
-      div.onclick = () => {
-        const key = div.getAttribute("data-halqa");
-        loadHalqa(key);
-        menuOptions.style.display = "none";
-      };
-    });
-
-    function gatherData() {
-      return Array.from(document.querySelectorAll(".student-block")).map((block, index) => {
-        const name = block.querySelector(".name").textContent;
-        const course = block.querySelector(".course").textContent;
-        const inputs = block.querySelectorAll("input");
-        return {
-          number: (index + 1),
-          name,
-          course,
-          page: inputs[0].value.trim(),
-          hadith: inputs[1].value.trim(),
-          grade: inputs[2].value.trim()
-        };
-      });
-    }function exportExcel() {
-  const data = gatherData();
-  const wb = XLSX.utils.book_new();
-  const wsData = [
-    ["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"],
-    ...data.map(d => [d.number, d.name, d.course, d.page, d.hadith, d.grade])
-  ];
-  const ws = XLSX.utils.aoa_to_sheet(wsData);
-  XLSX.utils.book_append_sheet(wb, ws, "تقييم الحلقة");
-  XLSX.writeFile(wb, "تقييم_الحلقة.xlsx");
-}
-function clearData() {
-  const currentHalqa = halqaTitle.textContent.includes("بخاري") ? "bukhari" :
-                       halqaTitle.textContent.includes("مسلم") ? "muslim" :
-                       halqaTitle.textContent.includes("ترمذي") ? "tirmidhi" : "bukhari";
-
-  // حذف البيانات من التخزين
-  localStorage.removeItem(currentHalqa);
-
-  // إعادة تحميل الحلقة من جديد بدون بيانات
-  loadHalqa(currentHalqa);
-
-  alert("تم تصفير بيانات الحلقة بنجاح");
-}
-
-function sendWhatsApp() {
-  const data = gatherData();
-  let text = `${halqaTitle.textContent}:\n\n`;
-  data.forEach(d => {
-    text += `${d.number}. ${d.name}\n${d.course}\nصفحة: ${d.page}, حديث: ${d.hadith}, درجة: ${d.grade}\n\n`;
-  });
-  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-  window.open(url, "_blank");
-}
-
-function downloadAsImage() {
-  html2canvas(container, { scale: 2 }).then(canvas => {
-    const link = document.createElement("a");
-    link.download = "تقييم_الحلقة.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-  });
-}
-
-async function saveReportZip() {
-  const zip = new JSZip();
-  const data = gatherData();
-
-  // PDF
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    orientation: "portrait",
-    unit: "pt",
-    format: "a4"
-  });
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(18);
-  doc.text(halqaTitle.textContent, 40, 40);
-
-  const rows = data.map(d => [
-    d.number, d.name, d.course, d.page, d.hadith, d.grade
-  ]);
-
-  doc.autoTable({
-    head: [["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"]],
-    body: rows,
-    startY: 70,
-    styles: {
-      font: "TraditionalArabic",
-      fontSize: 11,
-      cellPadding: 3,
-      halign: "center",
-      valign: "middle"
-    },
-    headStyles: {
-      fillColor: [31, 60, 136],
-      textColor: [255, 255, 255]
-    }
-  });
-
-  const pdfBlob = doc.output("blob");
-  zip.file("تقييم_الحلقة.pdf", pdfBlob);
-
-  // Excel
-  const wb = XLSX.utils.book_new();
-  const wsData = [
-    ["#", "اسم الطالب", "المقرر", "صفحة", "حديث", "درجة"],
-    ...data.map(d => [d.number, d.name, d.course, d.page, d.hadith, d.grade])
-  ];
-  const ws = XLSX.utils.aoa_to_sheet(wsData);
-  XLSX.utils.book_append_sheet(wb, ws, "تقييم الحلقة");
-  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  zip.file("تقييم_الحلقة.xlsx", wbout);
-
-  // Image
-  const canvas = await html2canvas(container, { scale: 2 });
-  const imgData = canvas.toDataURL("image/png");
-  const imgBlob = await (await fetch(imgData)).blob();
-  zip.file("تقييم_الحلقة.png", imgBlob);
-
-  // download ZIP
-  zip.generateAsync({ type: "blob" }).then(content => {
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(content);
-    link.download = "تقرير_الحلقة.zip";
-    link.click();
-  });
-}
+loadHalqa("bukhari");
 </script>
 </body>
 </html>
