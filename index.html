@@ -1,181 +1,241 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>كشف متابعة ورصد درجات الطلاب</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
-
-<style>
-body{font-family:'Traditional Arabic',serif;background:#f4f6f9;padding:20px}
-header{text-align:center;position:relative}
-h1{color:#1f3c88;border-bottom:3px solid #1f3c88;display:inline-block;padding:8px 25px;background:#fff;border-radius:10px}
-#menuBtn{position:absolute;left:20px;top:10px;font-size:2rem;cursor:pointer}
-#menuOptions{display:none;position:absolute;left:20px;top:50px;background:#fff;border:1px solid #ccc;border-radius:8px}
-#menuOptions div{padding:10px;cursor:pointer}
-#menuOptions div:hover{background:#1f3c88;color:#fff}
-.container{max-width:900px;margin:auto;background:#fff;padding:25px;border-radius:15px}
-.student-block{border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:10px}
-.top-row{display:flex;gap:10px}
-.number{width:25px}
-.name{font-weight:bold;color:#1f3c88;font-size:1.4rem}
-.course{font-size:0.9rem;color:#555}
-.bottom-row{margin-top:8px;display:flex;gap:10px}
-.bottom-row input{width:70px;text-align:center}
-.submit-btn{text-align:center;margin-top:30px}
-.submit-btn button{margin:5px;padding:10px 20px;background:#1f3c88;color:#fff;border:none;border-radius:6px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>كشف متابعة ورصد درجات الطلاب </title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Traditional Arabic', serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      position: relative;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    header h1 {
+      font-size: 2.7rem;
+      color: #1f3c88;
+      border-bottom: 3px solid #1f3c88;
+      display: inline-block;
+      padding: 8px 25px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: 'Traditional Arabic', serif;
+    }
+    #menuBtn {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 2.2rem;
+      cursor: pointer;
+      user-select: none;
+      color: #1f3c88;
+    }
+    #menuOptions {
+      position: absolute;
+      top: 50px;
+      left: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      display: none;
+      min-width: 160px;
+      z-index: 1000;
+    }
+    #menuOptions div {
+      padding: 10px 15px;
+      cursor: pointer;
+      font-family: 'Traditional Arabic', serif;
+      font-size: 1rem;
+    }
+    #menuOptions div:hover {
+      background-color: #1f3c88;
+      color: white;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    .student-block {
+      margin-bottom: 18px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .top-row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .number {
+      font-family: 'Traditional Arabic', serif;
+      font-size: 1.3rem;
+      width: 20px;
+      flex-shrink: 0;
+    }
+    .name-course {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .name {
+      font-weight: bold;
+      font-size: 1.6rem;
+      color: #1f3c88;
+      white-space: normal;
+      line-height: 1.2;
+      font-family: 'Traditional Arabic', serif;
+    }
+    .course {
+      font-weight: bold;
+      font-family: 'Traditional Arabic', serif;
+      font-size: 0.95rem;
+      color: #555;
+      margin-top: 1px;
+      white-space: normal;
+      line-height: 1.2;
+    }
+    .bottom-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+    .bottom-row input[type="text"] {
+      width: 65px;
+      padding: 6px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      text-align: center;
+      font-family: 'Traditional Arabic', serif;
+      font-size: 1.1rem;
+    }
+  </style>
 </head>
-
 <body>
+
 <header>
-<div id="menuBtn">☰</div>
-<h1 id="halqaTitle">حلقة الإمام البخاري</h1>
-<div id="menuOptions">
-<div data-halqa="bukhari">حلقة الإمام البخاري</div>
-<div data-halqa="muslim">حلقة الإمام مسلم</div>
-<div data-halqa="abudawood">حلقة الإمام أبو داود</div>
-</div>
+  <div id="menuBtn">☰</div>
+  <h1 id="halqaTitle">حلقة الإمام البخاري</h1>
+  <div id="menuOptions">
+    <div data-halqa="bukhari">حلقة الإمام البخاري</div>
+    <div data-halqa="muslim">حلقة الإمام مسلم</div>
+    <div data-halqa="tirmidhi">حلقة الإمام ألو داود</div>
+  </div>
 </header>
 
 <div class="container" id="formContainer"></div>
 
-<div class="submit-btn">
-<button onclick="generatePDF()">PDF</button>
-<button onclick="exportExcel()">Excel</button>
-<button onclick="sendWhatsApp()">واتساب</button>
-<button onclick="downloadAsImage()">صورة</button>
-<button onclick="clearData()">تصفير</button>
-<button onclick="saveReportZip()">ZIP</button>
-</div>
-
 <script>
-const halqat={
-bukhari:[
-["أحمد أمين مقبل","بلوغ المرام"],
-["عبد اللّٰه مرزوق الغامدي","عمدة الأحكام"],
-["يوسف منير الحربي","عمدة الأحكام"],
-["يحيى أحمد الزهراني","عمدة الأحكام"],
-["رامي صاح العريني","كتاب التوحيد"],
-["خالد محمد القرشي","زاد المستقنع"],
-["عبدالرحمن محمد عثماني","السنن"],
-["محمد علي أبو بكر","السنن"],
-["عبدالباسط عبدالرحمن","الجمع بترتيب المتفق والمفردات"],
-["عمر شير علي","الجمع بترتيب المتفق والمفردات"],
-["إبراهيم عبدالعزيز الصوينع","مختصر الجمع"],
-["محمد علي المصري","مختصر الجمع"],
-["خالد عرفات يحيى","مختصر الجمع"],
-["علي محمد فوزي","مختصر الجمع"],
-["ناصر محمد يوسف","مختصر الجمع"],
-["عبداللّه حمزة","مختصر الجمع"],
-["حمدي عبد النور الشعبي","مختصر الجمع"],
-["أحمد يحيى صقر","مختصر الجمع"],
-["خالد صالح الحرير","بلوغ المرام"],
-["الهيثم بدر السيف","بلوغ المرام"],
-["عاصم عبدالعزيز دعجم","بلوغ المرام"],
-["عبيد حمد الدوسري","بلوغ المرام"],
-["عبد اللّٰه العبدلي","بلوغ المرام"],
-["محمود هوساوي","شرح البلوغ"],
-["عمر عبدالعزيز القباني","شرح البلوغ"],
-["محمد سعد الكبيسي","عمدة الأحكام"]
-],
+const halqat = {
+  bukhari: [
+    ["أحمد أمين مقبل","بلوغ المرام"],
+    ["عبد اللّٰه مرزوق الغامدي","عمدة الأحكام"],
+    ["يوسف منير الحربي","عمدة الأحكام"],
+    ["يحيى أحمد الزهراني","عمدة الأحكام"],
+    ["رامي صاح العريني","كتاب التوحيد"],
+    ["خالد محمد القرشي","زاد المستقنع"],
+    ["عبدالرحمن محمد عثماني","السنن"],
+    ["محمد علي أبو بكر","السنن"],
+    ["عبدالباسط عبدالرحمن","الجمع بترتيب المتفق والمفردات"],
+    ["عمر شير علي","الجمع بترتيب المتفق والمفردات"],
+    ["إبراهيم عبدالعزيز الصوينع","مختصر الجمع"],
+    ["محمد علي المصري","مختصر الجمع"],
+    ["خالد عرفات يحيى","مختصر الجمع"],
+    ["علي محمد فوزي","مختصر الجمع"],
+    ["ناصر محمد يوسف","مختصر الجمع"],
+    ["عبداللّه حمزة","مختصر الجمع"],
+    ["حمدي عبد النور الشعبي","مختصر الجمع"],
+    ["أحمد يحيى صقر","مختصر الجمع"],
+    ["خالد صالح الحرير","بلوغ المرام"],
+    ["الهيثم بدر السيف","بلوغ المرام"],
+    ["عاصم عبدالعزيز دعجم","بلوغ المرام"],
+    ["عبيد حمد الدوسري","بلوغ المرام"],
+    ["عبد اللّٰه العبدلي","بلوغ المرام"],
+    ["محمود هوساوي","شرح البلوغ"],
+    ["عمر عبدالعزيز القباني","شرح البلوغ"],
+    ["محمد سعد الكبيسي","عمدة الأحكام"]
+  ],
 
-muslim:[
-["عبدالله أيوب علي","الجمع بترتيب المتفق والمفردات"],
-["محمد خالد بن حارس","الجمع بترتيب المتفق والمفردات"],
-["أحمد محمد حسين رمضان","مختصر الجمع"],
-["إدريس عيسى باثيلي","مختصر الجمع"],
-["أحمد عبد الستار محمد محمد","مختصر الجمع"],
-["عبد الحكيم إدريس أولاديميجي","مختصر الجمع"],
-["محمد حسن السيد دياب","مختصر الجمع"],
-["يوسف عبدالرحمن علي محمديه","مختصر الجمع"],
-["عمر احمد سونكو","مختصر الجمع"],
-["أنس أبوبكر ساري","مختصر الجمع"],
-["وليد حسن العامري","مختصر الجمع"],
-["احمد محمود تهامى","مختصر الجمع"],
-["عبدالله محمد أشرف حسام","بلوغ المرام"],
-["أنس خالد عسيري","بلوغ المرام"],
-["عبد العزيز بن أحمد الخليوي","بلوغ المرام"],
-["محمد راشد الهاجري","بلوغ المرام"],
-["خالد الناصر","شرح البلوغ"],
-["محمد عبد المجيد الأهدل","شرح البلوغ"],
-["عبد اللّٰه بن خالد الجابر","عمدة الأحكام"],
-["معاذ بن إبراهيم الغفيلي","عمدة الأحكام"],
-["عبداللّه بن سلطان الحمدان","عمدة الأحكام"],
-["أحمد عيدروس الكاف","مختصر الجمع"],
-["سليمان سعود الغلول","عمدة الأحكام"],
-["هيثم بندر السكيت","عمدة الأحكام"],
-["عبد العزيز رائد الجسار","كتاب التوحيد"],
-["سفيان محمد المشوح","زاد المستقنع"]
-],
+  muslim: [
+    ["عبدالله أيوب علي","الجمع بترتيب المتفق والمفردات"],
+    ["محمد خالد بن حارس","الجمع بترتيب المتفق والمفردات"],
+    ["أحمد محمد حسين رمضان","مختصر الجمع"],
+    ["إدريس عيسى باثيلي","مختصر الجمع"],
+    ["أحمد عبد الستار محمد محمد","مختصر الجمع"],
+    ["عبد الحكيم إدريس أولاديميجي","مختصر الجمع"],
+    ["محمد حسن السيد دياب","مختصر الجمع"],
+    ["يوسف عبدالرحمن علي محمديه","مختصر الجمع"],
+    ["عمر احمد سونكو","مختصر الجمع"],
+    ["أنس أبوبكر ساري","مختصر الجمع"],
+    ["وليد حسن العامري","مختصر الجمع"],
+    ["احمد محمود تهامى","مختصر الجمع"],
+    ["عبدالله محمد أشرف حسام","بلوغ المرام"],
+    ["أنس خالد عسيري","بلوغ المرام"],
+    ["عبد العزيز بن أحمد الخليوي","بلوغ المرام"],
+    ["محمد راشد الهاجري","بلوغ المرام"],
+    ["خالد الناصر","شرح البلوغ"],
+    ["محمد عبد المجيد الأهدل","شرح البلوغ"],
+    ["عبد اللّٰه بن خالد الجابر","عمدة الأحكام"],
+    ["معاذ بن إبراهيم الغفيلي","عمدة الأحكام"],
+    ["عبداللّه بن سلطان الحمدان","عمدة الأحكام"],
+    ["أحمد عيدروس الكاف","مختصر الجمع"],
+    ["سليمان سعود الغلول","عمدة الأحكام"],
+    ["هيثم بندر السكيت","عمدة الأحكام"],
+    ["عبد العزيز رائد الجسار","كتاب التوحيد"],
+    ["سفيان محمد المشوح","زاد المستقنع"]
+  ],
 
-abudawood:[
-["صهيب محمد الحمد","الجمع بترتيب المتفق والمفردات"],
-["علي شلبون","الجمع بترتيب المتفق والمفردات"],
-["محمد علي بن عادل","الجمع بترتيب المتفق والمفردات"],
-["منير حمزة الهوساوي","الجمع بترتيب المتفق والمفردات"],
-["ابراهيم يسلم الصيعري","مختصر الجمع"],
-["أحمد بن محمد العربي بن طه","مختصر الجمع"],
-["خالد ابراهيم شلبي","مختصر الجمع"],
-["محمد عبد الله منصور الغريب","مختصر الجمع"],
-["عبد الحي عبد الرؤوف","مختصر الجمع"],
-["محمد علي جالو","مختصر الجمع"],
-["علي غوث عبد اللّٰه كونتي","مختصر الجمع"],
-["محمد أحمد السيد حرز الله","بلوغ المرام"],
-["راضي سعد الشمري","بلوغ المرام"],
-["عبدالله بن عادل الراجحي","بلوغ المرام"],
-["زياد بن صالح الحسن","بلوغ المرام"],
-["صالح محمد نور إدريس","شرح البلوغ"],
-["عبد الرحمن أبو بكر آدم","شرح البلوغ"],
-["عمار بن محمد الداوود","مختصر الجمع"],
-["يوسف سعد الكبيسي","عمدة الأحكام"],
-["معاذ محمد الخليفه","عمدة الأحكام"],
-["حسام احميد أبو موسى","عمدة الأحكام"],
-["عبدالله بن محمد آل فريان","عمدة الأحكام"],
-["احمد بن زايد العتيبي","كتاب التوحيد"],
-["فارس بن تركي بن عبدالرحمن","كتاب التوحيد مع العمدة"],
-["عبدالله بن مسفر بن سفر الغبيوي","ألفية ابن مالك"],
-["عمر حمزة الأنصاري","ألفية ابن مالك"]
-]
+  tirmidhi: [
+    ["صهيب محمد الحمد","الجمع بترتيب المتفق والمفردات"],
+    ["علي شلبون","الجمع بترتيب المتفق والمفردات"],
+    ["محمد علي بن عادل","الجمع بترتيب المتفق والمفردات"],
+    ["منير حمزة الهوساوي","الجمع بترتيب المتفق والمفردات"],
+    ["ابراهيم يسلم الصيعري","مختصر الجمع"],
+    ["أحمد بن محمد العربي بن طه","مختصر الجمع"],
+    ["خالد ابراهيم شلبي","مختصر الجمع"],
+    ["محمد عبد الله منصور الغريب","مختصر الجمع"],
+    ["عبد الحي عبد الرؤوف","مختصر الجمع"],
+    ["محمد علي جالو","مختصر الجمع"],
+    ["علي غوث عبد اللّٰه كونتي","مختصر الجمع"],
+    ["محمد أحمد السيد حرز الله","بلوغ المرام"],
+    ["راضي سعد الشمري","بلوغ المرام"],
+    ["عبدالله بن عادل الراجحي","بلوغ المرام"],
+    ["زياد بن صالح الحسن","بلوغ المرام"],
+    ["صالح محمد نور إدريس","شرح البلوغ"],
+    ["عبد الرحمن أبو بكر آدم","شرح البلوغ"],
+    ["عمار بن محمد الداوود","مختصر الجمع"],
+    ["يوسف سعد الكبيسي","عمدة الأحكام"],
+    ["معاذ محمد الخليفه","عمدة الأحكام"],
+    ["حسام احميد أبو موسى","عمدة الأحكام"],
+    ["عبدالله بن محمد آل فريان","عمدة الأحكام"],
+    ["احمد بن زايد العتيبي","كتاب التوحيد"],
+    ["فارس بن تركي بن عبدالرحمن","كتاب التوحيد مع العمدة"],
+    ["عبدالله بن مسفر بن سفر الغبيوي","ألفية ابن مالك"],
+    ["عمر حمزة الأنصاري","ألفية ابن مالك"]
+  ]
 };
-
-const container=document.getElementById("formContainer");
-const halqaTitle=document.getElementById("halqaTitle");
-const menuBtn=document.getElementById("menuBtn");
-const menuOptions=document.getElementById("menuOptions");
-
-function loadHalqa(key){
-container.innerHTML="";
-halqaTitle.textContent=key==="bukhari"?"حلقة الإمام البخاري":key==="muslim"?"حلقة الإمام مسلم":"حلقة الإمام أبو داود";
-(halqat[key]||[]).forEach((s,i)=>{
-const div=document.createElement("div");
-div.className="student-block";
-div.innerHTML=`
-<div class="top-row">
-<div class="number">${i+1}</div>
-<div>
-<div class="name">${s[0]}</div>
-<div class="course">${s[1]}</div>
-</div>
-</div>
-<div class="bottom-row">
-<input placeholder="صفحة">
-<input placeholder="حديث">
-<input placeholder="درجة">
-</div>`;
-container.appendChild(div);
-});
-}
-
-menuBtn.onclick=()=>menuOptions.style.display=menuOptions.style.display==="block"?"none":"block";
-menuOptions.querySelectorAll("div").forEach(d=>d.onclick=()=>{loadHalqa(d.dataset.halqa);menuOptions.style.display="none";});
-
-loadHalqa("bukhari");
 </script>
+
 </body>
 </html>
