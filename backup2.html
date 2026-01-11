@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تحضير الطلاب - صباحي ومسائي</title>
+
+  <!-- مكتبة Excel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Traditional Arabic', serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #1f3c88;
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .student {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #1f3c88;
+    }
+    .buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .buttons button {
+      padding: 7px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .present { background: #4caf50; color: white; }
+    .absent { background: #e53935; color: white; }
+
+    .export-buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .export-buttons button {
+      padding: 10px 20px;
+      font-size: 1.05rem;
+      border: none;
+      background: #1f3c88;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .export-buttons .clear-btn {
+      background: #e53935;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #16316e;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    #halqaButtons {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    #halqaButtons button {
+      padding: 8px 16px;
+      margin: 4px;
+      background: #16316e;
+      color: white;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    #halqaButtons button.active {
+      background: #1f3c88;
+    }
+
+    @media (max-width: 600px) {
+      .student {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>تحضير الطلاب</h1>
+
+<div id="halqaButtons">
+  <button onclick="changeHalqa('bukhari')" id="btn-bukhari">البخاري</button>
+  <button onclick="changeHalqa('muslim')" id="btn-muslim">مسلم</button>
+  <button onclick="changeHalqa('tirmidhi')" id="btn-tirmidhi">أبو داود</button>
+  <button onclick="changeHalqa('sle')" id="sle">حلقة خاصة</button>
+</div>
+
+<div class="container">
+  <div class="section-title">🟦 التحضير الصباحي</div>
+  <div id="morning"></div>
+
+  <div class="section-title">🟧 التحضير المسائي</div>
+  <div id="evening"></div>
+
+  <div class="export-buttons">
+    <button onclick="exportWhatsApp()">إرسال عبر واتساب</button>
+    <button onclick="exportExcel()">تصدير Excel</button>
+    <button class="clear-btn" onclick="clearAttendance()">تصفير التحضير</button>
+  </div>
+</div>
+
+<script>
+  // أسماء الحلقات بالعربي (للتقارير)
+  const halqaTitles = {
+    bukhari: "حلقة الإمام البخاري",
+    muslim: "حلقة الإمام مسلم",
+    tirmidhi: "حلقة الإمام أبو داود",
+    sle: "حلقة خاصة"
+  };
+
+  // ثلاث حلقات منفصلة
+const halqat = {
+  bukhari: [
+    "محمد بن سعد الكبيسي",
+    "عبد الحكيم إدريس أولاديميجي",
+    "محمد حسن السيد دياب",
+    "محمد علي محمد المصري",
+    "خالد عرفات يحيى عيسى",
+    "أحمد أمين علي مقبل",
+    "خالد صالح الحرير",
+    "عبيد بن حمد بن محمد الدوسري",
+    "خالد محمد القرشي",
+    "عبد الله بن مرزوق الغامدي",
+    "يوسف بن منير عبدالحفيظ المخلفي الحربي",
+    "يحيى بن أحمد الزهراني",
+    "وليد حسن العامري",
+    "الهيثم بدر السيف",
+    "عاصم عبدالعزيز دعجم",
+    "حسين إبراهيم إدريس",
+    "محمود هوساوي",
+    "عمر عبدالعزيز القباني",
+    "رامي صالح العريني",
+    "إبراهيم بن عبدالعزيز الصوينع",
+    "علي محمد فوزي",
+    "ناصر محمد احمد احمد يوسف",
+    "عبدالله حمزة",
+    "حمدي عبد النور محمد الشعبي",
+    "مالك حسين الدياب"
+  ],
+
+  muslim: [
+    "منير حمزة الهوساوي",
+    "عبدالرحمن محمد عبدالمتين عثماني",
+    "محمد علي أبو بكر",
+    "يوسف عبدالرحمن علي محمديه",
+    "عمر احمد سونكو",
+    "أنس أبوبكر ساري",
+    "احمد محمود تهامى",
+    "سفيان محمد المشوح",
+    "خالد الناصر",
+    "سليمان سعود الغلول",
+    "هيثم بندر السكيت",
+    "عبد العزيز رائدالجسار",
+    "علي العولقي",
+    "عبد العزيز بن أحمد الخليوي",
+    "عبدالله بن سلطان الحمدان",
+    "معاذ بن إبراهيم الغفيلي",
+    "محمد راشد الهاجري",
+    "عبدالله محمد أشرف حسام",
+    "أنس خالد عسيري",
+    "محمد عبد المجيد الأهدل",
+    "أحمد عيدروس الكاف",
+    "إدريس عيسى باثيلي"
+  ],
+
+  tirmidhi: [
+    "أحمد بن محمد العربي بن طه",
+    "عبدالله أيوب علي",
+    "خالد ابراهيم شلبي",
+    "ابراهيم يسلم الصيعري",
+    "صهيب محمد الحمد",
+    "عبد الرحمن أبو بكر آدم",
+    "حسام احميد أبو موسى",
+    "عبد الله بن خالد الجابر",
+    "عبدالرحمن السميري",
+    "عبدالله بن محمد آل فريان",
+    "فارس بن تركي بن عبدالرحمن الرشيد",
+    "محمد أمين السالك",
+    "صالح عيسى محمد",
+    "راضي سعد الشمري",
+    "زياد بن صالح الحسن",
+    "أحمد محمد حسين رمضان",
+    "محمد أحمد السيد حرزالله",
+    "عبدالله بن عادل الراجحي",
+    "محمد علي جالو",
+    "علي غوث عبد الله كونتي",
+    "عبدالله بن مسفر بن سفر الغبيوي",
+    "عمرحمزة الأنصاري",
+    "أحمد عبد الستار محمد محمد",
+    "محمد عبدالله منصور الغريب",
+    "عبد الحي عبد الرؤوف",
+    "صالح محمد نور إدريس",
+    "يوسف سعد الكبيسي",
+    "معاذ محمد الخليفه",
+    "عمار بن محمد الداوود"
+  ],
+  
+  sle: [
+    "علي شلبون",
+    "محمد خالد بن حارس",
+    "محمد علي بن عادل",
+    "عبدالباسط عبدالرحمن",
+    "عمر شير علي"
+  ]
+};
+
+
+
+  let currentHalqa = "bukhari";
+
+  function setActiveButton() {
+    ["bukhari","muslim","tirmidhi"].forEach(key => {
+      const btn = document.getElementById("btn-" + key);
+      if (!btn) return;
+      if (key === currentHalqa) btn.classList.add("active");
+      else btn.classList.remove("active");
+    });
+  }
+
+  function renderHalqa() {
+    document.getElementById("morning").innerHTML = "";
+    document.getElementById("evening").innerHTML = "";
+    loadAttendance("morning");
+    loadAttendance("evening");
+    setActiveButton();
+  }
+
+  function loadAttendance(type) {
+    const savedKey = currentHalqa + "_" + type;
+    const saved = JSON.parse(localStorage.getItem(savedKey) || "{}");
+    const container = document.getElementById(type);
+    const students = halqat[currentHalqa];
+
+    students.forEach(name => {
+      const div = document.createElement("div");
+      div.className = "student";
+
+      const status = saved[name] || "";
+
+      div.innerHTML = `
+        <div class="name">${name}</div>
+        <div class="buttons">
+          <button class="present" onclick="mark('${type}','${name}','حضور', this)">حضور</button>
+          <button class="absent" onclick="mark('${type}','${name}','غياب', this)">غياب</button>
+          <span style="margin-right:10px; color:#555; font-size:0.95rem;">${status}</span>
+        </div>
+      `;
+
+      container.appendChild(div);
+    });
+  }
+
+  function mark(type, name, value, btn) {
+    const key = currentHalqa + "_" + type;
+    let saved = JSON.parse(localStorage.getItem(key) || "{}");
+    saved[name] = value;
+    localStorage.setItem(key, JSON.stringify(saved));
+    btn.parentElement.querySelector("span").textContent = value;
+  }
+
+  function changeHalqa(key) {
+    currentHalqa = key;
+    renderHalqa();
+  }
+
+  // تصدير واتساب
+  function exportWhatsApp() {
+    const students = halqat[currentHalqa];
+    const morning = JSON.parse(localStorage.getItem(currentHalqa + "_morning") || "{}");
+    const evening = JSON.parse(localStorage.getItem(currentHalqa + "_evening") || "{}");
+
+    let text = `${halqaTitles[currentHalqa]}:\n\n`;
+
+    students.forEach(name => {
+      const m = morning[name] || "—";
+      const e = evening[name] || "—";
+      text += `${name}\nصباحي: ${m}\nمسائي: ${e}\n\n`;
+    });
+
+    const url = "https://wa.me/?text=" + encodeURIComponent(text);
+    window.open(url, "_blank");
+  }
+
+  // تصدير Excel
+  function exportExcel() {
+    const students = halqat[currentHalqa];
+    const morning = JSON.parse(localStorage.getItem(currentHalqa + "_morning") || "{}");
+    const evening = JSON.parse(localStorage.getItem(currentHalqa + "_evening") || "{}");
+
+    const wb = XLSX.utils.book_new();
+    const wsData = [
+      ["اسم الطالب", "التحضير الصباحي", "التحضير المسائي"],
+      ...students.map(name => [
+        name,
+        morning[name] || "",
+        evening[name] || ""
+      ])
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "تحضير");
+    XLSX.writeFile(wb, `تحضير_${currentHalqa}.xlsx`);
+  }
+
+  // تصفير التحضير للحلقة الحالية
+  function clearAttendance() {
+    localStorage.removeItem(currentHalqa + "_morning");
+    localStorage.removeItem(currentHalqa + "_evening");
+    renderHalqa();
+    alert("تم تصفير التحضير لهذه الحلقة");
+  }
+
+  // تحميل أول حلقة عند فتح الصفحة
+  renderHalqa();
+</script>
+
+</body>
+</html>
